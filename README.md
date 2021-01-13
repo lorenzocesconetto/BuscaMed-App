@@ -25,7 +25,7 @@ Aplicação Mobile do projeto BuscaMed desenvolvida em Flutter
  <br />
  <sub><b>Maiara Martins</b></sub></a>
 
-Feito com ❤️ por Maiara Martins
+Feito por Maiara Martins
 
 [![Gmail Badge](https://img.shields.io/badge/-maiaramartins093@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:tgmarinho@gmail.com)](mailto:maiaramartins093@gmail.com)
 
