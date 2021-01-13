@@ -3,7 +3,6 @@ https://img.shields.io/badge/status-development-yellow
 <p align="center">
   <img src="https://github.com/MaiaraM/BuscaMed/blob/master/assets/logo.png?raw=true" height="100" alt="BuscaMed" />
 </p>
-----
 
 # BuscaMed Aplicação Mobile
 
