@@ -1,7 +1,7 @@
 [![pub package](https://img.shields.io/pub/v/flutter_modular.svg)](https://pub.dev/packages/flutter_modular) 
 
 <p align="center">
-  <img src="https://storage.googleapis.com/golden-wind/unform/unform.svg" height="150" width="175" alt="Unform" />
+  <img src="https://github.com/MaiaraM/BuscaMed/blob/master/assets/logo.png?raw=true" height="100" alt="BuscaMed" />
 </p>
 
 # BuscaMed Aplicação Mobile
@@ -11,15 +11,17 @@ Aplicação Mobile do projeto BuscaMed desenvolvida em Flutter
 
 ### Features
 
-- [x] Cadastro de usuário
-- [x] Cadastro de cliente
-- [ ] Cadastro de produtos
+- [ ] Cadastro de usuário
+- [ ] Login
+- [ ] SplashScreen
+- [ ] Home
+
 
 ### Autor
 ---
 
-<a href="https://blog.rocketseat.com.br/author/thiago/">
- <img style="border-radius: 50%;" src="https://avatars3.githubusercontent.com/u/380327?s=460&u=61b426b901b8fe02e12019b1fdb67bf0072d4f00&v=4" width="100px;" alt=""/>
+<a href="https://github.com/MaiaraM">
+ <img style="border-radius: 50%;" src="https://avatars3.githubusercontent.com/u/40842310?s=460&u=0d7cb78a451846f9f05db46e723236b226caff80&v=4" width="100px;" alt=""/>
  <br />
  <sub><b>Maiara Martins</b></sub></a>
 
