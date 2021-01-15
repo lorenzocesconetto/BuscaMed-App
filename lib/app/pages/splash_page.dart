@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:buscamed/app/shared/components/logo_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -14,7 +15,7 @@ class _MyHomePageState extends State<SplashScreenPage> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 5), () {
-      Modular.to.pushNamed("/home");
+      Modular.to.pushNamed("/login");
     });
   }
 
@@ -24,11 +25,8 @@ class _MyHomePageState extends State<SplashScreenPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
-            // child: SvgPicture.asset(
-            //   Images.LOGO_TEXTO,
-            //   color: Colors.white,
-            // ),
-            ),
+          child: LogoComponent(),
+        ),
       ),
     );
   }
