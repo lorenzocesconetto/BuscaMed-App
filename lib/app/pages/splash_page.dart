@@ -15,7 +15,7 @@ class _MyHomePageState extends State<SplashScreenPage> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 5), () {
-      Modular.to.pushNamed("/login");
+      Modular.to.popAndPushNamed("/login");
     });
   }
 

@@ -23,6 +23,7 @@ class PasswordInputComponent extends StatelessWidget {
         enableSuggestions: false,
         controller: controller,
         keyboardInputType: TextInputType.emailAddress,
-        icon: icon);
+        icon: icon
+    );
   }
 }

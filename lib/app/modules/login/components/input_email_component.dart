@@ -1,6 +1,7 @@
 import 'package:buscamed/app/shared/components/input_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EmailInputComponent extends StatelessWidget {
   final bool readOnly;
@@ -11,6 +12,7 @@ class EmailInputComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputComponent(
+        textFormatter: [FilteringTextInputFormatter.deny(' ')],
         label: "E-mail",
         readOnly: readOnly,
         controller: controller,

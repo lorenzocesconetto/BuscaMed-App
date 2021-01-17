@@ -1,7 +1,8 @@
 import 'package:buscamed/app/shared/components/button_component.dart';
-import 'package:buscamed/app/shared/components/input_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'input_zipcode_component.dart';
 
 class DocumentLoginComponent extends StatefulWidget {
   @override
@@ -16,12 +17,10 @@ class _DocumentLoginComponentState extends State<DocumentLoginComponent> {
       child: Column(children: [
         Text(
             "Para usar o BuscaMed sem cadastro, digite o seu CEP para que possamos localizar as melhores ofertas em sua região."),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 8),
-          child: InputComponent(label: 'CEP'),
-        ),
-        SizedBox(height: 40),
+        ZipcodeInputComponent(),
+        SizedBox(height: 20),
         ButtonComponent(text: 'ENTRAR'),
+
       ]),
     );
   }

@@ -3,21 +3,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class CPFInputComponent extends StatelessWidget {
+class ZipcodeInputComponent extends StatelessWidget {
   var maskFormatterCPF = new MaskTextInputFormatter(
-      mask: '###.###.###-##', filter: {"#": RegExp(r'[0-9]')});
+      mask: '#####-###', filter: {"#": RegExp(r'[0-9]')});
 
   final bool readOnly;
   final TextEditingController controller;
 
-  CPFInputComponent({this.readOnly = false, this.controller});
+  ZipcodeInputComponent({this.readOnly = false, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return InputComponent(
-        label: "E-mail",
+        textFormatter: [maskFormatterCPF],
+        label: "CEP",
         readOnly: readOnly,
         controller: controller,
-        keyboardInputType: TextInputType.emailAddress);
+        keyboardInputType: TextInputType.number);
   }
 }
