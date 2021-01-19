@@ -5,10 +5,14 @@ import 'package:flutter/material.dart';
 class ButtonSecundaryComponent extends StatelessWidget {
   final String text;
   final bool loading;
+  final bool big;
   final Function onPressed;
 
   ButtonSecundaryComponent(
-      {@required this.text, this.onPressed, this.loading = false});
+      {@required this.text,
+      this.onPressed,
+      this.loading = false,
+      this.big = true});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +23,9 @@ class ButtonSecundaryComponent extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: ThemeColors.button_secundary,
-            borderRadius: BorderRadius.circular(10.0),
-            border: Border.all(
-              color: ThemeColors.button_default,
-              width: 1,
-            ),
+            borderRadius: BorderRadius.circular(6.0),
           ),
-          height: 50.0,
+          height: big ? 50.0 : 40,
           child: Center(
             child: loading
                 ? CircularProgressIndicator()

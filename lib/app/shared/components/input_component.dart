@@ -13,13 +13,15 @@ class InputComponent extends StatelessWidget {
   final TextInputType keyboardInputType;
   final Widget icon;
 
-  List<TextInputFormatter > textFormatter = [FilteringTextInputFormatter.singleLineFormatter] ;
+  List<TextInputFormatter> textFormatter = [
+    FilteringTextInputFormatter.singleLineFormatter
+  ];
 
   InputComponent(
       {@required this.label,
       this.obscureText = false,
       this.icon,
-        this.textFormatter,
+      this.textFormatter,
       this.readOnly = false,
       this.autocorrect = true,
       this.enableSuggestions = true,
@@ -29,7 +31,7 @@ class InputComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical : 8.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(
         inputFormatters: textFormatter,
         readOnly: readOnly,
@@ -47,7 +49,9 @@ class InputComponent extends StatelessWidget {
           enabledBorder: UnderlineInputBorder(
               borderSide: new BorderSide(color: ThemeColors.input_blue)),
         ),
-        style: TextStyle(color: readOnly ? Colors.grey : Colors.black),
+        style: TextStyle(
+            color: readOnly ? Colors.grey : Colors.black,
+            fontFamily: 'Lato-Black'),
       ),
     );
   }

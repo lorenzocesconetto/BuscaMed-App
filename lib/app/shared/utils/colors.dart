@@ -6,4 +6,8 @@ class ThemeColors {
   static const button_default = Color(0xFF5DC7D3);
   static const button_secundary = Color(0xFF6CC395);
   static const button_secundary_light = Color(0xFFEDF8FA);
+
+  static const text_gray = Color(0xFFADADAD);
+
+  static const search_input = Color(0xFFEDF8FA);
 }
