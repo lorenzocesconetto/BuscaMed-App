@@ -1,6 +1,7 @@
 import 'package:buscamed/app/shared/components/button_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import 'input_zipcode_component.dart';
 
@@ -19,8 +20,10 @@ class _DocumentLoginComponentState extends State<DocumentLoginComponent> {
             "Para usar o BuscaMed sem cadastro, digite o seu CEP para que possamos localizar as melhores ofertas em sua região."),
         ZipcodeInputComponent(),
         SizedBox(height: 20),
-        ButtonComponent(text: 'ENTRAR'),
-
+        ButtonComponent(
+          text: 'ENTRAR',
+          onPressed: () => Modular.to.pushNamed("/home"),
+        ),
       ]),
     );
   }

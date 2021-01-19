@@ -17,34 +17,37 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     return Scaffold(
         backgroundColor: ThemeColors.gray,
         body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              HeaderComponent(action: () => Modular.to.pop(), title: 'Recuperação de Senha',),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(36.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Column(
-                        children: [
-                          Text('Para recuperar a sua senha, digite seu e-mail abaixo e siga as instruções enviadas em sua caixa de mensagens'),
-                          EmailInputComponent(),
-                        ],
-                      ),
-                      ButtonComponent(text: 'ENVIAR E-MAIL')
-                    ],
-                  ),
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            HeaderComponent(
+              action: () => Modular.to.pop(),
+              title: 'Recuperação de Senha',
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(36.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                            'Para recuperar a sua senha, digite seu e-mail abaixo e siga as instruções enviadas em sua caixa de mensagens'),
+                        EmailInputComponent(),
+                      ],
+                    ),
+                    ButtonComponent(
+                      text: 'ENVIAR E-MAIL',
+                      onPressed: () => Modular.to.pushNamed("/home"),
+                    )
+                  ],
                 ),
               ),
-
-
-            ],
-          )
-        )
-    );
+            ),
+          ],
+        )));
   }
 }

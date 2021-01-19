@@ -1,4 +1,4 @@
-import 'package:buscamed/app/modules/home/home.dart';
+import 'package:buscamed/app/modules/home/home_page.dart';
 import 'package:buscamed/app/modules/login/pages/login_page.dart';
 import 'package:buscamed/app/pages/splash_page.dart';
 import 'package:flutter/cupertino.dart';

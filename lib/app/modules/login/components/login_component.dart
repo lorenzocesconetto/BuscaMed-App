@@ -2,7 +2,6 @@ import 'package:buscamed/app/shared/components/button_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'input_email_component.dart';
 import 'input_password_component.dart';
@@ -37,14 +36,22 @@ class _LoginComponentState extends State<LoginComponent> {
           // ),
         ),
         SizedBox(height: 20),
-        ButtonComponent(text: 'ENTRAR'),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.0),
-          child:  GestureDetector(
-            onTap: () => Modular.to.pushNamed("/forget-pass"),
-            child: Text("Esqueci minha senha"),
-          )
+        ButtonComponent(
+          text: 'ENTRAR',
+          onPressed: () => Modular.to.pushNamed("/home"),
         ),
+        Padding(
+            padding: EdgeInsets.symmetric(vertical: 16.0),
+            child: GestureDetector(
+              onTap: () => Modular.to.pushNamed("/forget-pass"),
+              child: Text(
+                "Esqueci minha senha",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  fontFamily: 'Lato-Black',
+                ),
+              ),
+            )),
       ]),
     );
   }

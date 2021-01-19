@@ -12,7 +12,7 @@ class ButtonComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical : 8.0),
+      padding: EdgeInsets.symmetric(vertical: 8.0),
       child: GestureDetector(
         onTap: onPressed,
         child: Container(
@@ -28,6 +28,7 @@ class ButtonComponent extends StatelessWidget {
                     text,
                     style: TextStyle(
                       color: Colors.white,
+                      fontFamily: 'Lato-Black',
                       fontSize: 16.0,
                       letterSpacing: 1.0,
                     ),
