@@ -21,11 +21,19 @@ class _MyHomePageState extends State<SplashScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: LogoComponent(),
+    return Container(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/logo_b@3x.png"),
+                    fit: BoxFit.contain)),
+            child: Center(
+              child: LogoComponent(),
+            ),
+          ),
         ),
       ),
     );

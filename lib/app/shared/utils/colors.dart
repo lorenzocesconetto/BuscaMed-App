@@ -10,4 +10,8 @@ class ThemeColors {
   static const text_gray = Color(0xFFADADAD);
 
   static const search_input = Color(0xFFEDF8FA);
+
+  static var price_red = Color(0xFFEE2F47);
+
+  static var background_product = Color(0xFFEDF8FA);
 }
