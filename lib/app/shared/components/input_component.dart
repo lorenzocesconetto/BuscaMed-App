@@ -7,6 +7,7 @@ class InputComponent extends StatelessWidget {
   final String label;
   final bool obscureText;
   final bool readOnly;
+  final bool validator;
   final bool autocorrect;
   final bool enableSuggestions;
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class InputComponent extends StatelessWidget {
       {@required this.label,
       this.obscureText = false,
       this.icon,
+      this.validator = false,
       this.textFormatter,
       this.readOnly = false,
       this.autocorrect = true,
@@ -31,7 +33,7 @@ class InputComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.only(top: 4.0),
       child: TextFormField(
         inputFormatters: textFormatter,
         readOnly: readOnly,
@@ -52,6 +54,12 @@ class InputComponent extends StatelessWidget {
         style: TextStyle(
             color: readOnly ? Colors.grey : Colors.black,
             fontFamily: 'Lato-Black'),
+        validator: (value) {
+          if (validator && value.isEmpty) {
+            return '$label não pode ser vazio';
+          }
+          return null;
+        },
       ),
     );
   }

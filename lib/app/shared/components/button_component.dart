@@ -23,7 +23,9 @@ class ButtonComponent extends StatelessWidget {
           height: 50.0,
           child: Center(
             child: loading
-                ? CircularProgressIndicator()
+                ? CircularProgressIndicator(
+                    backgroundColor: Colors.white,
+                  )
                 : Text(
                     text,
                     style: TextStyle(

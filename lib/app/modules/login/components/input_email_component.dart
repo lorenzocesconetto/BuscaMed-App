@@ -16,6 +16,7 @@ class EmailInputComponent extends StatelessWidget {
         label: "E-mail",
         readOnly: readOnly,
         controller: controller,
+        validator: true,
         keyboardInputType: TextInputType.emailAddress);
   }
 }
