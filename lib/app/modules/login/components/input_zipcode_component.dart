@@ -15,6 +15,7 @@ class ZipcodeInputComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputComponent(
+        validator: true,
         textFormatter: [maskFormatterCPF],
         label: "CEP",
         readOnly: readOnly,

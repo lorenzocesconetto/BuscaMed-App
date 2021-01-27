@@ -21,20 +21,23 @@ class ButtonComponent extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
           height: 50.0,
-          child: Center(
-            child: loading
-                ? CircularProgressIndicator(
-                    backgroundColor: Colors.white,
-                  )
-                : Text(
-                    text,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Lato-Black',
-                      fontSize: 16.0,
-                      letterSpacing: 1.0,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: Center(
+              child: loading
+                  ? CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    )
+                  : Text(
+                      text,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Lato-Black',
+                        fontSize: 16.0,
+                        letterSpacing: 1.0,
+                      ),
                     ),
-                  ),
+            ),
           ),
         ),
       ),

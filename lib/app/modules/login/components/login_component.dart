@@ -81,17 +81,18 @@ class _LoginComponentState extends State<LoginComponent> {
                 );
               }),
           Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: GestureDetector(
-                onTap: () => goResetPassword(),
-                child: Text(
-                  "Esqueci minha senha",
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    fontFamily: 'Lato-Black',
-                  ),
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: GestureDetector(
+              onTap: () => goResetPassword(),
+              child: Text(
+                "Esqueci minha senha",
+                style: TextStyle(
+                  decoration: TextDecoration.underline,
+                  fontFamily: 'Lato-Black',
                 ),
-              )),
+              ),
+            ),
+          ),
         ]),
       ),
     );
