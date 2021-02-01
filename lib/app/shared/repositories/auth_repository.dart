@@ -11,7 +11,7 @@ class AuthRepository {
   Future<String> getToken(username, password) async {
     try {
       var response = await baseRepository.post(
-          url: "/api/login",
+          url: "/login",
           body: new LoginModel(email: username, password: password).toJson());
       // if (response.headers.value("authorization").isNotEmpty) {
       //   return response.headers.value("authorization");

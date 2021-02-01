@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:buscamed/app/modules/login/controllers/auth_controller.dart';
 import 'package:buscamed/app/shared/components/logo_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,14 @@ class SplashScreenPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<SplashScreenPage> {
+  final authController = Modular.get<AuthController>();
+
   @override
   void initState() {
     super.initState();
+    authController.getIsAuth();
     Timer(Duration(seconds: 5), () {
-      Modular.to.popAndPushNamed("/login");
+      Modular.to.popAndPushNamed("/home");
     });
   }
 

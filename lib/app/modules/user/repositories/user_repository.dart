@@ -20,8 +20,9 @@ class UserRepository {
 
   Future<dynamic> createUser(UserModel model) async {
     try {
-      var response = await baseRepository.post(url: "/users/", body: model);
-      if (response.data != null) {
+      var response =
+          await baseRepository.post(url: "/register", body: model.toJson());
+      if (response.data.success) {
         return response.data;
       }
     } catch (e) {

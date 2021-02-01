@@ -72,7 +72,7 @@ class _LoginComponentState extends State<LoginComponent> {
                 : SizedBox(height: 20);
           }),
           Observer(
-              name: "Button Loadind",
+              name: "Button Loading",
               builder: (_) {
                 return ButtonComponent(
                   loading: loginController.loading,

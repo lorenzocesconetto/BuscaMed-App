@@ -22,30 +22,30 @@ abstract class _UserController with Store {
   UserModel user;
 
   @observable
-  bool loading = false;
+  bool _loadingStatus = false;
 
   @action
   getUser(String uuid) async {
-    loading = true;
+    _loadingStatus = true;
     dynamic user = await repository.getUser(uuid);
     this.user = UserModel.fromJson(user);
-    loading = false;
+    _loadingStatus = false;
   }
 
   @action
   getUserLogin() async {
-    loading = true;
+    _loadingStatus = true;
     var token = await localStorage.get("auth_token");
     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
     await this.getUser(decodedToken["sub"]);
-    loading = false;
+    _loadingStatus = false;
   }
 
   @action
   createUser(UserModel newUser) async {
-    loading = true;
+    _loadingStatus = true;
     dynamic user = await repository.createUser(newUser);
-    loading = false;
+    _loadingStatus = false;
     if (user != null) {
       this.user = UserModel.fromJson(user);
       return true;
@@ -56,9 +56,9 @@ abstract class _UserController with Store {
 
   @action
   editUser(UserModel newUser) async {
-    loading = true;
+    _loadingStatus = true;
     dynamic user = await repository.editUser(this.user.uuid, newUser);
-    loading = false;
+    _loadingStatus = false;
     if (user != null) {
       this.user = UserModel.fromJson(user);
       return true;
@@ -69,16 +69,19 @@ abstract class _UserController with Store {
 
   @action
   deleteUser(String uuid) async {
-    loading = true;
+    _loadingStatus = true;
     dynamic user = await repository.deleteUser(uuid);
-    loading = false;
+    _loadingStatus = false;
   }
 
   @action
   getInfoCep(String cep) async {
-    loading = true;
+    _loadingStatus = true;
     CepModel addressInfo = await searchAddressRepository.getInfoByCep(cep);
-    loading = false;
+    _loadingStatus = false;
     return addressInfo;
   }
+
+  @computed
+  bool get loading => _loadingStatus;
 }

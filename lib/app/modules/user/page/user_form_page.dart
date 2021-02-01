@@ -3,10 +3,12 @@ import 'package:buscamed/app/modules/login/components/input_password_component.d
 import 'package:buscamed/app/modules/login/components/input_zipcode_component.dart';
 import 'package:buscamed/app/modules/login/controllers/auth_controller.dart';
 import 'package:buscamed/app/modules/user/controllers/user_controller.dart';
+import 'package:buscamed/app/modules/user/models/user_model.dart';
 import 'package:buscamed/app/shared/cepSearch/CepModel.dart';
 import 'package:buscamed/app/shared/components/button_component.dart';
 import 'package:buscamed/app/shared/components/header_component.dart';
 import 'package:buscamed/app/shared/components/input_component.dart';
+import 'package:buscamed/app/shared/components/input_phone_component.dart';
 import 'package:buscamed/app/shared/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,7 @@ class _UserFormPageState extends State<UserFormPage> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordCheckController = TextEditingController();
 
   final zipCodeController = TextEditingController();
@@ -34,15 +37,28 @@ class _UserFormPageState extends State<UserFormPage> {
   final cityController = TextEditingController();
   final stateController = TextEditingController();
 
+  bool diferrentPass = false;
+
   final _formKey = GlobalKey<FormState>();
-  final _zipCodeKey = GlobalKey<FormState>();
 
   Future<void> login() async {
     if (_formKey.currentState.validate()) {
-      // await loginController.login(
-      //     emailController.text, passwordController.text);
-      if (loginController.auth_token) {
-        //Modular.to.pushNamed("/home");
+      if (passwordController.text != passwordCheckController.text) {
+        setState(() => diferrentPass = true);
+      } else {
+        setState(() => diferrentPass = false);
+
+        UserModel newuser = new UserModel(
+            name: nameController.text,
+            email: emailController.text,
+            phone: phoneController.text,
+            password: passwordController.text,
+            address: zipCodeController.text);
+
+        await userController.createUser(newuser);
+        if (userController.user != null) {
+          Modular.to.pushNamed("/login");
+        }
       }
     }
   }
@@ -72,13 +88,13 @@ class _UserFormPageState extends State<UserFormPage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(36.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Form(
-                      key: _formKey,
-                      child: Column(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Column(
                         children: [
                           Text(
                               'Preencha os campos abaixo para criar uma conta e acessar o Buscamed com todos os recursos disponíveis.'),
@@ -90,6 +106,9 @@ class _UserFormPageState extends State<UserFormPage> {
                           EmailInputComponent(
                             controller: emailController,
                           ),
+                          PhoneInputComponent(
+                            controller: phoneController,
+                          ),
                           PasswordInputComponent(
                             controller: passwordController,
                           ),
@@ -99,81 +118,90 @@ class _UserFormPageState extends State<UserFormPage> {
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    Divider(),
-                    SizedBox(height: 20),
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                                child: ZipcodeInputComponent(
-                              controller: zipCodeController,
-                            )),
-                            Observer(builder: (_) {
-                              return ButtonComponent(
-                                loading: userController.loading,
-                                text: 'Buscar',
-                                onPressed: () => searchZipCode(),
-                              );
-                            })
-                          ],
+                      SizedBox(height: 20),
+                      Visibility(
+                        visible: diferrentPass,
+                        child: Text(
+                          "Senha estão diferentes",
+                          style: TextStyle(color: Colors.red),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: InputComponent(
-                                  controller: streetController,
-                                  label: 'Logradouro',
-                                  readOnly: true,
-                                )),
-                            SizedBox(width: 10),
-                            Expanded(
-                              flex: 1,
-                              child: InputComponent(
-                                  label: 'Número',
-                                  controller: numberController,
-                                  keyboardInputType: TextInputType.number),
-                            ),
-                          ],
-                        ),
-                        InputComponent(
-                          validator: true,
-                          readOnly: true,
-                          label: 'Bairro',
-                          controller: blockController,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: InputComponent(
-                                  controller: cityController,
-                                  validator: true,
-                                  readOnly: true,
-                                  label: 'Cidade',
-                                )),
-                            SizedBox(width: 10),
-                            Expanded(
+                      ),
+                      Divider(),
+                      SizedBox(height: 20),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: ZipcodeInputComponent(
+                                controller: zipCodeController,
+                              )),
+                              Observer(builder: (_) {
+                                return ButtonComponent(
+                                  loading: userController.loading,
+                                  text: 'Buscar',
+                                  onPressed: () => searchZipCode(),
+                                );
+                              })
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: InputComponent(
+                                    controller: streetController,
+                                    label: 'Logradouro',
+                                    readOnly: true,
+                                  )),
+                              SizedBox(width: 10),
+                              Expanded(
                                 flex: 1,
                                 child: InputComponent(
-                                  controller: stateController,
-                                  validator: true,
-                                  readOnly: true,
-                                  label: 'Estado',
-                                )),
-                          ],
+                                    label: 'Número',
+                                    controller: numberController,
+                                    keyboardInputType: TextInputType.number),
+                              ),
+                            ],
+                          ),
+                          InputComponent(
+                            validator: true,
+                            readOnly: true,
+                            label: 'Bairro',
+                            controller: blockController,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: InputComponent(
+                                    controller: cityController,
+                                    validator: true,
+                                    readOnly: true,
+                                    label: 'Cidade',
+                                  )),
+                              SizedBox(width: 10),
+                              Expanded(
+                                  flex: 1,
+                                  child: InputComponent(
+                                    controller: stateController,
+                                    validator: true,
+                                    readOnly: true,
+                                    label: 'Estado',
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Observer(
+                        builder: (_) => ButtonComponent(
+                          loading: userController.loading,
+                          text: 'REGISTRAR',
+                          onPressed: () => login(),
                         ),
-                      ],
-                    ),
-                    ButtonComponent(
-                      loading: loginController.loading,
-                      text: 'REGISTRAR',
-                      onPressed: () => login(),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],

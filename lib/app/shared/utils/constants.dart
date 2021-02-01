@@ -1,2 +1,2 @@
 //Url
-const String URL_BASE = "https://buscamed.com.br";
+const String URL_BASE = "https://buscamed.com.br/api";

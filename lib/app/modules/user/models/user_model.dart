@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final userModel = userModelFromJson(jsonString);
-
 import 'dart:convert';
 
 UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
@@ -11,70 +7,34 @@ String userModelToJson(UserModel data) => json.encode(data.toJson());
 class UserModel {
   UserModel({
     this.uuid,
-    this.createAt,
-    this.modifiedAt,
-    this.deletedAt,
-    this.active,
-    this.firstName,
-    this.lastName,
+    this.name,
+    this.phone,
     this.email,
-    this.username,
     this.password,
-    this.document,
     this.address,
-    this.description,
-    this.favorites,
   });
 
   String uuid;
-  DateTime createAt;
-  DateTime modifiedAt;
-  dynamic deletedAt;
-  bool active;
-  String firstName;
-  String lastName;
+  String name;
+  String phone;
   String email;
-  String username;
   String password;
-  String document;
-  Address address;
-  String description;
-  List<dynamic> favorites;
+  String address;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        uuid: json["uuid"],
-        createAt: DateTime.parse(json["createAt"]),
-        modifiedAt: DateTime.parse(json["modifiedAt"]),
-        deletedAt: json["deletedAt"],
-        active: json["active"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
+        name: json["name"],
         email: json["email"],
-        username: json["username"],
+        phone: json["phone"],
         password: json["password"],
-        document: json["document"],
-        address: Address.fromJson(json["address"]),
-        description: json["description"],
-        favorites: json["favorites"] != null
-            ? List<dynamic>.from(json["favorites"].map((x) => x))
-            : null,
+        address: json["address"],
       );
 
   Map<String, dynamic> toJson() => {
-        "uuid": uuid,
-        "deletedAt": deletedAt,
-        "active": active,
-        "firstName": firstName,
-        "lastName": lastName,
+        "name": name,
         "email": email,
-        "username": username,
+        "phone": phone,
         "password": password,
-        "document": document,
-        "address": address.toJson(),
-        "description": description,
-        "favorites": favorites != null
-            ? List<dynamic>.from(favorites.map((x) => x))
-            : null,
+        "address": address,
       };
 }
 

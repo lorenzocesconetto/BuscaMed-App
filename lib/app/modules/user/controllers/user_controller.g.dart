@@ -9,6 +9,13 @@ part of 'user_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UserController on _UserController, Store {
+  Computed<bool> _$loadingComputed;
+
+  @override
+  bool get loading => (_$loadingComputed ??=
+          Computed<bool>(() => super.loading, name: '_UserController.loading'))
+      .value;
+
   final _$userAtom = Atom(name: '_UserController.user');
 
   @override
@@ -24,18 +31,18 @@ mixin _$UserController on _UserController, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_UserController.loading');
+  final _$_loadingStatusAtom = Atom(name: '_UserController._loadingStatus');
 
   @override
-  bool get loading {
-    _$loadingAtom.reportRead();
-    return super.loading;
+  bool get _loadingStatus {
+    _$_loadingStatusAtom.reportRead();
+    return super._loadingStatus;
   }
 
   @override
-  set loading(bool value) {
-    _$loadingAtom.reportWrite(value, super.loading, () {
-      super.loading = value;
+  set _loadingStatus(bool value) {
+    _$_loadingStatusAtom.reportWrite(value, super._loadingStatus, () {
+      super._loadingStatus = value;
     });
   }
 
