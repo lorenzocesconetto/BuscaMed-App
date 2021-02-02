@@ -1,10 +1,12 @@
 import 'package:buscamed/app/modules/product/controllers/product_controller.dart';
+import 'package:buscamed/app/modules/product/models/product_model.dart';
 import 'package:buscamed/app/shared/components/header_component.dart';
 import 'package:buscamed/app/shared/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 class ProductPage extends StatefulWidget {
   final id;
@@ -27,7 +29,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background_product,
+      backgroundColor: Colors.white,
       body: SafeArea(child: SingleChildScrollView(child: Observer(
         builder: (_) {
           if (productController.products == null || productController.loading) {
@@ -41,21 +43,24 @@ class _ProductPageState extends State<ProductPage> {
                 action: () => Modular.to.pop(),
                 title: 'Detalhes',
               ),
-              ImageProduct(productController.products.img_small),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ImageProduct(productController.products.img_small),
+              ),
               Container(
-                color: Colors.white,
+                color: ThemeColors.background_product,
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Text(
+                      //   productController.products.,
+                      //   style: TextStyle(
+                      //       fontSize: 12, color: ThemeColors.text_gray),
+                      // ),
                       Text(
-                        "MICROVLAR",
-                        style: TextStyle(
-                            fontSize: 12, color: ThemeColors.text_gray),
-                      ),
-                      Text(
-                        "Microvlar com 63 drágeas",
+                        productController.products.name,
                         style: TextStyle(fontSize: 18),
                       ),
                       Padding(
@@ -66,14 +71,7 @@ class _ProductPageState extends State<ProductPage> {
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Text("COMPARATIVO DE PREÇOS EM SUA REGIÃO"),
                       ),
-                      Text(
-                        "Abaixo segue uma listagem da disponibilidade deste medicamento e sua região. "
-                        "Ao tocar em um de nossos parceiros, você será levado ao site oficial da drogaria.",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                            fontSize: 12,
-                            textBaseline: TextBaseline.alphabetic),
-                      ),
+                      PricesProduct(productController.products.prices)
                     ],
                   ),
                 ),
@@ -87,8 +85,8 @@ class _ProductPageState extends State<ProductPage> {
 }
 
 Image ImageProduct(String urlImage) {
-  return urlImage != null
-      ? Image.asset(
+  return urlImage != null && urlImage.contains("https")
+      ? Image.network(
           urlImage,
           height: 150,
         )
@@ -96,4 +94,40 @@ Image ImageProduct(String urlImage) {
           "assets/sem-image.png",
           height: 150,
         );
+}
+
+Widget PricesProduct(List<PriceModel> prices) {
+  return SizedBox(
+    height: 200,
+    child: StickyGroupedListView<dynamic, String>(
+      elements: prices,
+      groupBy: (price) => price.promotion_qty,
+      groupSeparatorBuilder: (dynamic price) =>
+          Text("${price.promotion_qty} unidade"),
+      itemBuilder: (context, dynamic price) => RowPrice(price),
+      order: StickyGroupedListOrder.ASC,
+    ),
+  );
+}
+
+Widget RowPrice(PriceModel price) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("${price.store}"),
+        Text("R\$ ${price.price}"),
+      ],
+    ),
+  );
+}
+
+Widget SeparatorRow(PriceModel price) {
+  return Row(
+    children: [
+      Text("${price.store}"),
+      Text("${price.price}"),
+    ],
+  );
 }

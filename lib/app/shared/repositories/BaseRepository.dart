@@ -9,7 +9,7 @@ class BaseRepository {
 
   getHearder() async {
     String token = await localStorageService.get("auth_token");
-    dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers['content-type'] = 'application/json';
     if (token != null) dio.options.headers["authorization"] = token;
   }
 

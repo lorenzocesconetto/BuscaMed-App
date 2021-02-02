@@ -22,6 +22,8 @@ dependencies:
   font_awesome_flutter: ^8.10.0
   jwt_decoder: ^1.0.3
   mask_text_input_formatter: ^1.1.0
+  sticky_grouped_list: ^1.3.0
+
 
 dev_dependencies:
   flutter_test:

@@ -29,8 +29,8 @@ class PriceModel {
   String name;
   String store;
   double price;
-  String promotion_price;
-  int promotion_qty;
+  double promotion_price;
+  String promotion_qty;
   String description;
   String active_principle;
   String producer;
@@ -50,7 +50,8 @@ class PriceModel {
         store: json["store"],
         price: json["price"],
         promotion_price: json["promotion_price"],
-        promotion_qty: json["promotion_qty"],
+        promotion_qty:
+            json["promotion_qty"] != 0 ? json["promotion_qty"].toString() : "1",
         description: json["description"],
         producer: json["producer"],
       );
@@ -64,4 +65,9 @@ class PriceModel {
         "description": description,
         "producer": producer,
       };
+
+  @override
+  String toString() {
+    return 'PriceModel{name: $name, store: $store, price: $price, promotion_price: $promotion_price, promotion_qty: $promotion_qty, description: $description, active_principle: $active_principle, producer: $producer}';
+  }
 }
