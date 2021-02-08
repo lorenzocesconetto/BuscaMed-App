@@ -3,6 +3,7 @@ import 'package:buscamed/app/shared/components/search_input_component.dart';
 import 'package:buscamed/app/shared/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class HomeHeaderComponent extends StatefulWidget {
   @override
@@ -47,11 +48,14 @@ class _HomeHeaderComponentState extends State<HomeHeaderComponent> {
                       padding: EdgeInsets.only(
                         top: 4.0,
                       ),
-                      child: Text(
-                        "Ver perfil",
-                        style: TextStyle(
-                            color: ThemeColors.input_blue,
-                            fontFamily: 'Lato-Black'),
+                      child: GestureDetector(
+                        onTap: () => Modular.to.pushNamed('/user'),
+                        child: Text(
+                          "Ver perfil",
+                          style: TextStyle(
+                              color: ThemeColors.input_blue,
+                              fontFamily: 'Lato-Black'),
+                        ),
                       ),
                     ),
                   ],
@@ -63,11 +67,14 @@ class _HomeHeaderComponentState extends State<HomeHeaderComponent> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(child: SearchInputComponent()),
-                Padding(
-                  padding: EdgeInsets.only(left: 16.0),
-                  child: Icon(
-                    Icons.filter_list_outlined,
-                    color: ThemeColors.input_blue,
+                GestureDetector(
+                  onTap: () => _settingModalBottomSheet(context),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16.0),
+                    child: Icon(
+                      Icons.filter_list_outlined,
+                      color: ThemeColors.input_blue,
+                    ),
                   ),
                 )
               ],
@@ -77,4 +84,26 @@ class _HomeHeaderComponentState extends State<HomeHeaderComponent> {
       ),
     );
   }
+}
+
+void _settingModalBottomSheet(context) {
+  showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          child: new Wrap(
+            children: <Widget>[
+              new ListTile(
+                  leading: new Icon(Icons.music_note),
+                  title: new Text('Music'),
+                  onTap: () => {}),
+              new ListTile(
+                leading: new Icon(Icons.videocam),
+                title: new Text('Video'),
+                onTap: () => {},
+              ),
+            ],
+          ),
+        );
+      });
 }

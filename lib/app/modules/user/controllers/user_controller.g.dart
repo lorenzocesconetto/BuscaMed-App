@@ -15,19 +15,25 @@ mixin _$UserController on _UserController, Store {
   bool get loading => (_$loadingComputed ??=
           Computed<bool>(() => super.loading, name: '_UserController.loading'))
       .value;
-
-  final _$userAtom = Atom(name: '_UserController.user');
+  Computed<UserModel> _$userComputed;
 
   @override
-  UserModel get user {
-    _$userAtom.reportRead();
-    return super.user;
+  UserModel get user => (_$userComputed ??=
+          Computed<UserModel>(() => super.user, name: '_UserController.user'))
+      .value;
+
+  final _$_userAtom = Atom(name: '_UserController._user');
+
+  @override
+  UserModel get _user {
+    _$_userAtom.reportRead();
+    return super._user;
   }
 
   @override
-  set user(UserModel value) {
-    _$userAtom.reportWrite(value, super.user, () {
-      super.user = value;
+  set _user(UserModel value) {
+    _$_userAtom.reportWrite(value, super._user, () {
+      super._user = value;
     });
   }
 
@@ -91,8 +97,8 @@ mixin _$UserController on _UserController, Store {
   @override
   String toString() {
     return '''
-user: ${user},
-loading: ${loading}
+loading: ${loading},
+user: ${user}
     ''';
   }
 }

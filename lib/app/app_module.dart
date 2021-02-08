@@ -21,6 +21,7 @@ import 'modules/login/pages/forget_pass_page.dart';
 import 'modules/product/repositories/product_repository.dart';
 import 'modules/user/controllers/user_controller.dart';
 import 'modules/user/page/user_form_page.dart';
+import 'modules/user/page/user_info_page.dart';
 import 'modules/user/repositories/user_repository.dart';
 
 class AppModule extends MainModule {
@@ -60,6 +61,7 @@ class AppModule extends MainModule {
         ),
         ModularRouter('/forget-pass', child: (_, __) => ForgetPasswordPage()),
         ModularRouter('/user-form', child: (_, __) => UserFormPage()),
+        ModularRouter('/user', child: (_, __) => UserInfoPage()),
         ModularRouter('/client-form', child: (_, __) => HomePage()),
         ModularRouter('/login', child: (_, __) => LoginPage()),
         ModularRouter('/product/:id',

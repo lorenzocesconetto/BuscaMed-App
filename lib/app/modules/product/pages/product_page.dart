@@ -30,55 +30,62 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(child: SingleChildScrollView(child: Observer(
-        builder: (_) {
-          if (productController.products == null || productController.loading) {
-            return CircularProgressIndicator();
-          }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              HeaderComponent(
-                action: () => Modular.to.pop(),
-                title: 'Detalhes',
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ImageProduct(productController.products.img_small),
-              ),
-              Container(
-                color: ThemeColors.background_product,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Text(
-                      //   productController.products.,
-                      //   style: TextStyle(
-                      //       fontSize: 12, color: ThemeColors.text_gray),
-                      // ),
-                      Text(
-                        productController.products.name,
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Divider(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text("COMPARATIVO DE PREÇOS EM SUA REGIÃO"),
-                      ),
-                      PricesProduct(productController.products.prices)
-                    ],
+      body: SafeArea(
+          child: SingleChildScrollView(
+              child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          HeaderComponent(
+            action: () => Modular.to.pop(),
+            title: 'Detalhes',
+          ),
+          Observer(builder: (_) {
+            if (productController.products == null ||
+                productController.loading) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ImageProduct(productController.products.img_small),
                   ),
-                ),
-              )
-            ],
-          );
-        },
+                  Container(
+                    color: ThemeColors.background_product,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Text(
+                          //   productController.products.,
+                          //   style: TextStyle(
+                          //       fontSize: 12, color: ThemeColors.text_gray),
+                          // ),
+                          Text(
+                            productController.products.name,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Divider(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text("COMPARATIVO DE PREÇOS EM SUA REGIÃO"),
+                          ),
+                          PricesProduct(productController.products.prices)
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }
+          }),
+        ],
       ))),
     );
   }

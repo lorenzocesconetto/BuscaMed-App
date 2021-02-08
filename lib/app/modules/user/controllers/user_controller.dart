@@ -19,7 +19,7 @@ abstract class _UserController with Store {
       this.repository, this.localStorage, this.searchAddressRepository);
 
   @observable
-  UserModel user;
+  UserModel _user;
 
   @observable
   bool _loadingStatus = false;
@@ -28,7 +28,7 @@ abstract class _UserController with Store {
   getUser(String uuid) async {
     _loadingStatus = true;
     dynamic user = await repository.getUser(uuid);
-    this.user = UserModel.fromJson(user);
+    this._user = UserModel.fromJson(user);
     _loadingStatus = false;
   }
 
@@ -47,7 +47,7 @@ abstract class _UserController with Store {
     dynamic user = await repository.createUser(newUser);
     _loadingStatus = false;
     if (user != null) {
-      this.user = UserModel.fromJson(user);
+      this._user = UserModel.fromJson(user);
       return true;
     } else {
       return false;
@@ -57,10 +57,10 @@ abstract class _UserController with Store {
   @action
   editUser(UserModel newUser) async {
     _loadingStatus = true;
-    dynamic user = await repository.editUser(this.user.uuid, newUser);
+    dynamic user = await repository.editUser(this._user.uuid, newUser);
     _loadingStatus = false;
     if (user != null) {
-      this.user = UserModel.fromJson(user);
+      this._user = UserModel.fromJson(user);
       return true;
     } else {
       return false;
@@ -84,4 +84,7 @@ abstract class _UserController with Store {
 
   @computed
   bool get loading => _loadingStatus;
+
+  @computed
+  UserModel get user => _user;
 }
