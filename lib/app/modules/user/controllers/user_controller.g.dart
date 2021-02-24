@@ -9,6 +9,12 @@ part of 'user_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UserController on _UserController, Store {
+  Computed<String> _$errorsComputed;
+
+  @override
+  String get errors => (_$errorsComputed ??=
+          Computed<String>(() => super.errors, name: '_UserController.errors'))
+      .value;
   Computed<bool> _$loadingComputed;
 
   @override
@@ -52,11 +58,19 @@ mixin _$UserController on _UserController, Store {
     });
   }
 
-  final _$getUserAsyncAction = AsyncAction('_UserController.getUser');
+  final _$_errorsAtom = Atom(name: '_UserController._errors');
 
   @override
-  Future getUser(String uuid) {
-    return _$getUserAsyncAction.run(() => super.getUser(uuid));
+  String get _errors {
+    _$_errorsAtom.reportRead();
+    return super._errors;
+  }
+
+  @override
+  set _errors(String value) {
+    _$_errorsAtom.reportWrite(value, super._errors, () {
+      super._errors = value;
+    });
   }
 
   final _$getUserLoginAsyncAction = AsyncAction('_UserController.getUserLogin');
@@ -94,9 +108,17 @@ mixin _$UserController on _UserController, Store {
     return _$getInfoCepAsyncAction.run(() => super.getInfoCep(cep));
   }
 
+  final _$cleanErrorsAsyncAction = AsyncAction('_UserController.cleanErrors');
+
+  @override
+  Future cleanErrors() {
+    return _$cleanErrorsAsyncAction.run(() => super.cleanErrors());
+  }
+
   @override
   String toString() {
     return '''
+errors: ${errors},
 loading: ${loading},
 user: ${user}
     ''';

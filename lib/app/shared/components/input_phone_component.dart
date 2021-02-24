@@ -19,7 +19,7 @@ class PhoneInputComponent extends StatelessWidget {
         textFormatter: [maskFormatterPhone],
         readOnly: readOnly,
         controller: controller,
-        validator: true,
+        checkEmpty: true,
         keyboardInputType: TextInputType.emailAddress);
   }
 }

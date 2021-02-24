@@ -3,7 +3,6 @@ import 'package:buscamed/app/modules/user/repositories/user_repository.dart';
 import 'package:buscamed/app/shared/cepSearch/CepModel.dart';
 import 'package:buscamed/app/shared/cepSearch/search_address_repository.dart';
 import 'package:buscamed/app/shared/service/shared_local_storage_service.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mobx/mobx.dart';
 
 part 'user_controller.g.dart';
@@ -24,20 +23,18 @@ abstract class _UserController with Store {
   @observable
   bool _loadingStatus = false;
 
-  @action
-  getUser(String uuid) async {
-    _loadingStatus = true;
-    dynamic user = await repository.getUser(uuid);
-    this._user = UserModel.fromJson(user);
-    _loadingStatus = false;
-  }
+  @observable
+  String _errors;
 
   @action
   getUserLogin() async {
     _loadingStatus = true;
-    var token = await localStorage.get("auth_token");
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    await this.getUser(decodedToken["sub"]);
+    dynamic user = await repository.getUser();
+    if (user != null) {
+      this._user = UserModel.fromJson(user);
+    } else {
+      _errors = 'Erro ao carregar usuário';
+    }
     _loadingStatus = false;
   }
 
@@ -47,9 +44,11 @@ abstract class _UserController with Store {
     dynamic user = await repository.createUser(newUser);
     _loadingStatus = false;
     if (user != null) {
+      _errors = null;
       this._user = UserModel.fromJson(user);
       return true;
     } else {
+      _errors = 'Falha ao Criar usuário';
       return false;
     }
   }
@@ -57,9 +56,10 @@ abstract class _UserController with Store {
   @action
   editUser(UserModel newUser) async {
     _loadingStatus = true;
-    dynamic user = await repository.editUser(this._user.uuid, newUser);
+    dynamic user = await repository.editUser(newUser);
     _loadingStatus = false;
     if (user != null) {
+      _errors = null;
       this._user = UserModel.fromJson(user);
       return true;
     } else {
@@ -79,8 +79,22 @@ abstract class _UserController with Store {
     _loadingStatus = true;
     CepModel addressInfo = await searchAddressRepository.getInfoByCep(cep);
     _loadingStatus = false;
-    return addressInfo;
+    if (addressInfo != null) {
+      _errors = null;
+      return addressInfo;
+    } else {
+      _errors = 'Nenhum endereço encontrado com esse CEP';
+      return null;
+    }
   }
+
+  @action
+  cleanErrors() async {
+    _errors = null;
+  }
+
+  @computed
+  String get errors => _errors;
 
   @computed
   bool get loading => _loadingStatus;

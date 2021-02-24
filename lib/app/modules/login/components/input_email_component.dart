@@ -16,7 +16,10 @@ class EmailInputComponent extends StatelessWidget {
         label: "E-mail",
         readOnly: readOnly,
         controller: controller,
-        validator: true,
+        checkEmpty: true,
+        validator: (String text) => validator(text),
         keyboardInputType: TextInputType.emailAddress);
   }
+
+  bool validator(String text) => text.contains("@") && text.contains(".");
 }

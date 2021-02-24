@@ -6,27 +6,40 @@ String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
   UserModel({
-    this.uuid,
     this.name,
     this.phone,
     this.email,
     this.password,
-    this.address,
+    this.cep,
+    this.logradouro,
+    this.complemento,
+    this.bairro,
+    this.municipio,
+    this.uf,
   });
 
-  String uuid;
-  String name;
-  String phone;
   String email;
+  String name;
+  String cep;
+  String phone;
   String password;
-  String address;
+  String logradouro;
+  String complemento;
+  String bairro;
+  String municipio;
+  String uf;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
         password: json["password"],
-        address: json["address"],
+        cep: json["cep"].toString(),
+        logradouro: json["logradouro"],
+        complemento: json["complemento"],
+        bairro: json["bairro"],
+        municipio: json["municipio"],
+        uf: json["uf"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -34,60 +47,11 @@ class UserModel {
         "email": email,
         "phone": phone,
         "password": password,
-        "address": address,
-      };
-}
-
-class Address {
-  Address({
-    this.uuid,
-    this.createAt,
-    this.modifiedAt,
-    this.deletedAt,
-    this.active,
-    this.address,
-    this.block,
-    this.number,
-    this.city,
-    this.state,
-    this.zipcode,
-  });
-
-  String uuid;
-  DateTime createAt;
-  DateTime modifiedAt;
-  dynamic deletedAt;
-  bool active;
-  String address;
-  dynamic block;
-  dynamic number;
-  String city;
-  String state;
-  dynamic zipcode;
-
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-        uuid: json["uuid"],
-        createAt: DateTime.parse(json["createAt"]),
-        modifiedAt: DateTime.parse(json["modifiedAt"]),
-        deletedAt: json["deletedAt"],
-        active: json["active"],
-        address: json["address"],
-        block: json["block"],
-        number: json["number"],
-        city: json["city"],
-        state: json["state"],
-        zipcode: json["zipcode"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "uuid": uuid,
-        "deletedAt": deletedAt,
-        "active": active,
-        "address": address,
-        "block": block,
-        "number": number,
-        "city": city,
-        "state": state,
-        "zipcode": zipcode,
+        "cep": cep,
+        "logradouro": logradouro,
+        "complemento": complemento,
+        "bairro": bairro,
+        "municipio": municipio,
+        "uf": uf,
       };
 }

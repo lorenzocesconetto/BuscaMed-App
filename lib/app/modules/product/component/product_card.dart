@@ -96,7 +96,14 @@ Widget activePrinciple(String active_principle) {
 
 Widget image(String urlImage) {
   return urlImage != null && urlImage.contains("https")
-      ? Image.network(urlImage, width: 120)
+      ? Image.network(
+          urlImage,
+          width: 120,
+          errorBuilder:
+              (BuildContext context, Object exception, StackTrace stackTrace) {
+            return Image.asset("assets/sem-image.png", width: 120);
+          },
+        )
       : Image.asset("assets/sem-image.png", width: 120);
 }
 

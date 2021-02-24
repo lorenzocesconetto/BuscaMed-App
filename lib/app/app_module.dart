@@ -9,7 +9,6 @@ import 'package:buscamed/app/shared/repositories/BaseRepository.dart';
 import 'package:buscamed/app/shared/repositories/auth_repository.dart';
 import 'package:buscamed/app/shared/service/shared_local_storage_service.dart';
 import 'package:buscamed/app/shared/utils/constants.dart';
-import 'package:buscamed/app/shared/utils/guard_routes.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -54,11 +53,7 @@ class AppModule extends MainModule {
   @override
   List<ModularRouter> get routers => [
         ModularRouter('/splash', child: (_, __) => SplashScreenPage()),
-        ModularRouter(
-          '/home',
-          child: (_, __) => HomePage(),
-          guards: [GuardRoutes()],
-        ),
+        ModularRouter('/home', child: (_, __) => HomePage()),
         ModularRouter('/forget-pass', child: (_, __) => ForgetPasswordPage()),
         ModularRouter('/user-form', child: (_, __) => UserFormPage()),
         ModularRouter('/user', child: (_, __) => UserInfoPage()),

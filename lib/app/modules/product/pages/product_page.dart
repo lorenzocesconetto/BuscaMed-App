@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class ProductPage extends StatefulWidget {
   final id;
@@ -29,10 +29,9 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ThemeColors.background_product,
       body: SafeArea(
-          child: SingleChildScrollView(
-              child: Column(
+          child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -46,39 +45,37 @@ class _ProductPageState extends State<ProductPage> {
               return Center(child: CircularProgressIndicator());
             } else {
               return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ImageProduct(productController.products.img_small),
-                  ),
                   Container(
-                    color: ThemeColors.background_product,
+                    color: Colors.white,
                     child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Text(
-                          //   productController.products.,
-                          //   style: TextStyle(
-                          //       fontSize: 12, color: ThemeColors.text_gray),
-                          // ),
-                          Text(
-                            productController.products.name,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Divider(),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text("COMPARATIVO DE PREÇOS EM SUA REGIÃO"),
-                          ),
-                          PricesProduct(productController.products.prices)
-                        ],
-                      ),
+                      padding: const EdgeInsets.all(16.0),
+                      child: ImageProduct(productController.products.img_small),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          productController.products.name,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Divider(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text("COMPARATIVO DE PREÇOS EM SUA REGIÃO"),
+                        ),
+                        PricesProduct(productController.products.prices)
+                      ],
                     ),
                   )
                 ],
@@ -86,7 +83,7 @@ class _ProductPageState extends State<ProductPage> {
             }
           }),
         ],
-      ))),
+      )),
     );
   }
 }
@@ -96,6 +93,13 @@ Image ImageProduct(String urlImage) {
       ? Image.network(
           urlImage,
           height: 150,
+          errorBuilder:
+              (BuildContext context, Object exception, StackTrace stackTrace) {
+            return Image.asset(
+              "assets/sem-image.png",
+              height: 150,
+            );
+          },
         )
       : Image.asset(
           "assets/sem-image.png",
@@ -104,22 +108,23 @@ Image ImageProduct(String urlImage) {
 }
 
 Widget PricesProduct(List<PriceModel> prices) {
-  return SizedBox(
-    height: 200,
-    child: StickyGroupedListView<dynamic, String>(
+  return Padding(
+    padding: EdgeInsets.only(top: 16.0),
+    child: GroupedListView<dynamic, String>(
+      shrinkWrap: true,
       elements: prices,
+      separator: Divider(),
       groupBy: (price) => price.promotion_qty,
-      groupSeparatorBuilder: (dynamic price) =>
-          Text("${price.promotion_qty} unidade"),
+      groupSeparatorBuilder: (dynamic price) => SeparatorUnit(price),
       itemBuilder: (context, dynamic price) => RowPrice(price),
-      order: StickyGroupedListOrder.ASC,
+      order: GroupedListOrder.ASC,
     ),
   );
 }
 
 Widget RowPrice(PriceModel price) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: EdgeInsets.all(8.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -130,11 +135,21 @@ Widget RowPrice(PriceModel price) {
   );
 }
 
-Widget SeparatorRow(PriceModel price) {
-  return Row(
-    children: [
-      Text("${price.store}"),
-      Text("${price.price}"),
-    ],
+Widget SeparatorUnit(String number) {
+  String text =
+      int.tryParse(number) == 1 ? '$number Unidade' : '$number Unidades';
+  return Padding(
+    padding: const EdgeInsets.only(top: 8.0),
+    child: Container(
+      color: ThemeColors.input_blue,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    ),
   );
 }

@@ -9,7 +9,7 @@ class GuardRoutes implements RouteGuard {
     if (loginController.auth_token != null && loginController.auth_token) {
       return true;
     } else {
-      Modular.to.popAndPushNamed('/login');
+      Modular.to.pushNamed('/login');
       return false;
     }
   }

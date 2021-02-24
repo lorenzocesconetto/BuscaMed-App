@@ -1,4 +1,4 @@
-import 'package:buscamed/app/modules/login/model/login.dart';
+import 'dart:convert';
 
 import 'BaseRepository.dart';
 
@@ -10,15 +10,14 @@ class AuthRepository {
   @override
   Future<String> getToken(username, password) async {
     try {
-      var response = await baseRepository.post(
-          url: "/login",
-          body: new LoginModel(email: username, password: password).toJson());
+      var response = await baseRepository.login(
+          url: "/token",
+          auth: 'Basic ' + base64Encode(utf8.encode('$username:$password')));
       // if (response.headers.value("authorization").isNotEmpty) {
       //   return response.headers.value("authorization");
       // }
-      print("Chamada Login: ${response.statusCode}");
       if (response.statusCode == 200) {
-        return response.headers["set-cookie"][0];
+        return response.data["token"];
       }
     } catch (e) {
       print(e);

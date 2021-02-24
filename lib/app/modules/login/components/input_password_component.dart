@@ -17,14 +17,14 @@ class PasswordInputComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InputComponent(
-      label: label,
-      obscureText: obscureText,
-      autocorrect: false,
-      enableSuggestions: false,
-      controller: controller,
-      keyboardInputType: TextInputType.emailAddress,
-      icon: icon,
-      validator: true,
-    );
+        label: label,
+        obscureText: obscureText,
+        autocorrect: false,
+        enableSuggestions: false,
+        controller: controller,
+        keyboardInputType: TextInputType.emailAddress,
+        icon: icon,
+        checkEmpty: true,
+        minLenght: 7);
   }
 }

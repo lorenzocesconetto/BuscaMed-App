@@ -1,7 +1,6 @@
 import 'package:buscamed/app/modules/user/controllers/user_controller.dart';
 import 'package:buscamed/app/shared/repositories/auth_repository.dart';
 import 'package:buscamed/app/shared/service/shared_local_storage_service.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mobx/mobx.dart';
 
 part 'auth_controller.g.dart';
@@ -64,13 +63,12 @@ abstract class _AuthController with Store {
   @action
   getIsAuth() async {
     var token = await localStorage.get("auth_token");
-    auth_token = token != null;
     if (token != null) await setUserController(token);
   }
 
   void setUserController(String token) async {
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    await userController.getUser(decodedToken["sub"]);
+    await userController.getUserLogin();
+    auth_token = userController.errors == null;
   }
 
   @computed

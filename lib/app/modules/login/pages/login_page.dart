@@ -69,26 +69,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       },
                     ),
                   ),
-                  SizedBox(height: 20),
-                  AnimatedOpacity(
-                    opacity: selectedWidgetLogin ? 1 : 0,
-                    duration: Duration(milliseconds: 400),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedWidgetLogin = !selectedWidgetLogin;
-                          });
-                        },
-                        child: Text(
-                          'Entrar sem Login',
-                          style: TextStyle(
-                              fontFamily: 'Lato-Black', color: Colors.black54),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

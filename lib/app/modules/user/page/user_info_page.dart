@@ -51,23 +51,21 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
-                                    Text(
-                                      'Nome',
-                                      style: TextStyle(color: Colors.green),
-                                    ),
-                                    Text(userController.user.name),
-                                    SizedBox(height: 15),
-                                    Text(
-                                      'E-mail',
-                                      style: TextStyle(color: Colors.green),
-                                    ),
-                                    Text('fulano@gmail.com'),
-                                    SizedBox(height: 15),
-                                    Text(
-                                      'CEP',
-                                      style: TextStyle(color: Colors.green),
-                                    ),
-                                    Text('12345-678'),
+                                    dateUser('Nome', userController.user.name),
+                                    dateUser(
+                                        'E-mail', userController.user.email),
+                                    dateUser('CEP', userController.user.cep),
+                                    dateUser(
+                                        'Telefone', userController.user.phone),
+                                    dateUser('Logradouro',
+                                        userController.user.logradouro),
+                                    dateUser('N°/Complemento',
+                                        userController.user.complemento),
+                                    dateUser(
+                                        'Bairro', userController.user.bairro),
+                                    dateUser('Cidade',
+                                        userController.user.municipio),
+                                    dateUser('Estado', userController.user.uf),
                                   ],
                                 );
                               } else {
@@ -83,5 +81,21 @@ class _UserInfoPageState extends State<UserInfoPage> {
             ],
           ),
         )));
+  }
+
+  Widget dateUser(String title, String date) {
+    return Padding(
+      padding: EdgeInsets.only(top: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(color: Colors.green),
+          ),
+          Text(date)
+        ],
+      ),
+    );
   }
 }

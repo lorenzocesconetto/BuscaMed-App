@@ -6,9 +6,9 @@ class UserRepository {
 
   UserRepository(this.baseRepository);
 
-  Future<dynamic> getUser(String uuid) async {
+  Future<dynamic> getUser() async {
     try {
-      var response = await baseRepository.get(url: "/users/$uuid");
+      var response = await baseRepository.get(url: "/user");
       if (response.data != null) {
         return response.data;
       }
@@ -22,7 +22,7 @@ class UserRepository {
     try {
       var response =
           await baseRepository.post(url: "/register", body: model.toJson());
-      if (response.data.success) {
+      if (response.data["success"]) {
         return response.data;
       }
     } catch (e) {
@@ -31,10 +31,10 @@ class UserRepository {
     }
   }
 
-  Future<dynamic> editUser(String uuid, UserModel model) async {
+  Future<dynamic> editUser(UserModel model) async {
     try {
       var response =
-          await baseRepository.put(url: "/users/$uuid", body: model.toJson());
+          await baseRepository.post(url: "/users", body: model.toJson());
       if (response.data != null) {
         return response.data;
       }

@@ -67,16 +67,16 @@ class _HomeHeaderComponentState extends State<HomeHeaderComponent> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(child: SearchInputComponent()),
-                GestureDetector(
-                  onTap: () => _settingModalBottomSheet(context),
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16.0),
-                    child: Icon(
-                      Icons.filter_list_outlined,
-                      color: ThemeColors.input_blue,
-                    ),
-                  ),
-                )
+                // GestureDetector(
+                //   onTap: () => _settingModalBottomSheet(context),
+                //   child: Padding(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     child: Icon(
+                //       Icons.filter_list_outlined,
+                //       color: ThemeColors.input_blue,
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ],

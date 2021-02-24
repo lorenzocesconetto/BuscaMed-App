@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:buscamed/app/shared/service/shared_local_storage_service.dart';
 import 'package:dio/dio.dart';
 
@@ -10,7 +12,9 @@ class BaseRepository {
   getHearder() async {
     String token = await localStorageService.get("auth_token");
     dio.options.headers['content-type'] = 'application/json';
-    if (token != null) dio.options.headers["authorization"] = token;
+    if (token != null)
+      dio.options.headers["authorization"] =
+          'Basic ' + base64Encode(utf8.encode('$token:' ''));
   }
 
   Future get({String url}) async {
@@ -31,5 +35,11 @@ class BaseRepository {
   Future delete({String url}) async {
     await getHearder();
     return await dio.delete(url);
+  }
+
+  Future login({String url, var auth}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = auth;
+    return await dio.get(url);
   }
 }

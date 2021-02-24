@@ -7,8 +7,10 @@ class InputComponent extends StatelessWidget {
   final String label;
   final bool obscureText;
   final bool readOnly;
-  final bool validator;
+  final bool checkEmpty;
   final bool autocorrect;
+  final bool Function(String text) validator;
+  final int minLenght;
   final bool enableSuggestions;
   final TextEditingController controller;
   final TextInputType keyboardInputType;
@@ -22,9 +24,11 @@ class InputComponent extends StatelessWidget {
       {@required this.label,
       this.obscureText = false,
       this.icon,
-      this.validator = false,
+      this.checkEmpty = false,
       this.textFormatter,
       this.readOnly = false,
+      this.minLenght = 0,
+      this.validator,
       this.autocorrect = true,
       this.enableSuggestions = true,
       this.controller,
@@ -55,8 +59,14 @@ class InputComponent extends StatelessWidget {
             color: readOnly ? Colors.grey : Colors.black,
             fontFamily: 'Lato-Black'),
         validator: (value) {
-          if (validator && value.isEmpty) {
-            return '$label não pode ser vazio';
+          if (checkEmpty && value.isEmpty) {
+            return 'Campo não pode ser vazio';
+          }
+          if (value.length < minLenght) {
+            return 'Mínimo de  $minLenght caracteres';
+          }
+          if (validator != null && !validator(value)) {
+            return 'Campo inválido';
           }
           return null;
         },

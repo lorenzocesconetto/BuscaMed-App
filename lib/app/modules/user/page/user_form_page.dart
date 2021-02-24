@@ -53,12 +53,17 @@ class _UserFormPageState extends State<UserFormPage> {
             email: emailController.text,
             phone: phoneController.text,
             password: passwordController.text,
-            address: zipCodeController.text);
+            logradouro: streetController.text,
+            complemento: numberController.text,
+            bairro: blockController.text,
+            municipio: cityController.text,
+            uf: stateController.text,
+            cep: zipCodeController.text.replaceAll(RegExp('-'), ''));
 
         await userController.createUser(newuser);
         if (userController.user != null) {
           Modular.to.pushNamed("/login");
-        }
+        } else {}
       }
     }
   }
@@ -66,10 +71,18 @@ class _UserFormPageState extends State<UserFormPage> {
   Future<void> searchZipCode() async {
     CepModel addressInfo =
         await userController.getInfoCep(zipCodeController.text);
-    streetController.text = addressInfo.logradouro;
-    blockController.text = addressInfo.bairro;
-    cityController.text = addressInfo.localidade;
-    stateController.text = addressInfo.uf;
+    if (addressInfo != null) {
+      streetController.text = addressInfo.logradouro;
+      blockController.text = addressInfo.bairro;
+      cityController.text = addressInfo.localidade;
+      stateController.text = addressInfo.uf;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    userController.cleanErrors();
   }
 
   @override
@@ -99,7 +112,7 @@ class _UserFormPageState extends State<UserFormPage> {
                           Text(
                               'Preencha os campos abaixo para criar uma conta e acessar o Buscamed com todos os recursos disponíveis.'),
                           InputComponent(
-                            validator: true,
+                            checkEmpty: true,
                             label: 'Nome',
                             controller: nameController,
                           ),
@@ -110,6 +123,7 @@ class _UserFormPageState extends State<UserFormPage> {
                             controller: phoneController,
                           ),
                           PasswordInputComponent(
+                            label: "Senha (Mínimo 7 digitos)",
                             controller: passwordController,
                           ),
                           PasswordInputComponent(
@@ -153,19 +167,20 @@ class _UserFormPageState extends State<UserFormPage> {
                                     controller: streetController,
                                     label: 'Logradouro',
                                     readOnly: true,
+                                    checkEmpty: true,
                                   )),
                               SizedBox(width: 10),
                               Expanded(
                                 flex: 1,
                                 child: InputComponent(
-                                    label: 'Número',
-                                    controller: numberController,
-                                    keyboardInputType: TextInputType.number),
+                                    label: 'N°/Compl.',
+                                    checkEmpty: true,
+                                    controller: numberController),
                               ),
                             ],
                           ),
                           InputComponent(
-                            validator: true,
+                            checkEmpty: true,
                             readOnly: true,
                             label: 'Bairro',
                             controller: blockController,
@@ -176,7 +191,7 @@ class _UserFormPageState extends State<UserFormPage> {
                                   flex: 2,
                                   child: InputComponent(
                                     controller: cityController,
-                                    validator: true,
+                                    checkEmpty: true,
                                     readOnly: true,
                                     label: 'Cidade',
                                   )),
@@ -185,7 +200,7 @@ class _UserFormPageState extends State<UserFormPage> {
                                   flex: 1,
                                   child: InputComponent(
                                     controller: stateController,
-                                    validator: true,
+                                    checkEmpty: true,
                                     readOnly: true,
                                     label: 'Estado',
                                   )),
@@ -194,10 +209,15 @@ class _UserFormPageState extends State<UserFormPage> {
                         ],
                       ),
                       Observer(
-                        builder: (_) => ButtonComponent(
-                          loading: userController.loading,
-                          text: 'REGISTRAR',
-                          onPressed: () => login(),
+                        builder: (_) => Column(
+                          children: [
+                            _errorMsg(),
+                            ButtonComponent(
+                              loading: userController.loading,
+                              text: 'REGISTRAR',
+                              onPressed: () => login(),
+                            ),
+                          ],
                         ),
                       )
                     ],
@@ -207,5 +227,14 @@ class _UserFormPageState extends State<UserFormPage> {
             ],
           ),
         )));
+  }
+
+  Widget _errorMsg() {
+    return userController.errors != null
+        ? Text(
+            userController.errors,
+            style: TextStyle(color: Colors.red),
+          )
+        : Container();
   }
 }
