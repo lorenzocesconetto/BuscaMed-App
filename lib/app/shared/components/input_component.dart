@@ -52,6 +52,9 @@ class InputComponent extends StatelessWidget {
           alignLabelWithHint: true,
           labelText: label,
           floatingLabelBehavior: FloatingLabelBehavior.auto,
+          errorStyle: TextStyle(
+            color: ThemeColors.red,
+          ),
           enabledBorder: UnderlineInputBorder(
               borderSide: new BorderSide(color: ThemeColors.input_blue)),
         ),
@@ -60,7 +63,7 @@ class InputComponent extends StatelessWidget {
             fontFamily: 'Lato-Black'),
         validator: (value) {
           if (checkEmpty && value.isEmpty) {
-            return 'Campo não pode ser vazio';
+            return 'Não pode ser vazio';
           }
           if (value.length < minLenght) {
             return 'Mínimo de  $minLenght caracteres';

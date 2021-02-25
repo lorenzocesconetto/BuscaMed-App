@@ -13,9 +13,6 @@ class AuthRepository {
       var response = await baseRepository.login(
           url: "/token",
           auth: 'Basic ' + base64Encode(utf8.encode('$username:$password')));
-      // if (response.headers.value("authorization").isNotEmpty) {
-      //   return response.headers.value("authorization");
-      // }
       if (response.statusCode == 200) {
         return response.data["token"];
       }
@@ -28,11 +25,8 @@ class AuthRepository {
   @override
   Future<bool> forgetPassword(username) async {
     try {
-      var response = await baseRepository
-          .post(url: "/api/forgot_password", body: {"email": username});
-      // if (response.headers.value("authorization").isNotEmpty) {
-      //   return response.headers.value("authorization");
-      // }
+      var response = await baseRepository.post(
+          url: "/forgot_password", body: {"email": username}, getToken: false);
       print("Chamada Forget Password: ${response.statusCode}");
       return response.statusCode == 200;
     } catch (e) {

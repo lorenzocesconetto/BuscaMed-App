@@ -29,46 +29,51 @@ class ProductCardComponent extends StatefulWidget {
 class _ProductCardComponentState extends State<ProductCardComponent> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 1,
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            image(widget.img_small),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.name,
-                      maxLines: 2,
-                      style: TextStyle(fontSize: 14),
-                      overflow: TextOverflow.ellipsis),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  activePrinciple(widget.active_principle),
-                  producerPrinciple(widget.producer),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "A partir de",
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-                  PriceFormat(widget.best_price),
-                ],
+    return InkWell(
+      onTap: () => Modular.to.pushNamed('/product/${widget.id}'),
+      child: Card(
+        elevation: 1,
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: image(widget.img_small),
               ),
-            ),
-            ButtonSecundaryComponent(
-              text: "Comparar Preços",
-              big: false,
-              onPressed: () => Modular.to.pushNamed('/product/${widget.id}'),
-            )
-          ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.name,
+                        maxLines: 2,
+                        style: TextStyle(fontSize: 14),
+                        overflow: TextOverflow.ellipsis),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    activePrinciple(widget.active_principle),
+                    producerPrinciple(widget.producer),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "A partir de",
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                    PriceFormat(widget.best_price),
+                  ],
+                ),
+              ),
+              ButtonSecundaryComponent(
+                text: "Comparar Preços",
+                big: false,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -95,16 +100,23 @@ Widget activePrinciple(String active_principle) {
 }
 
 Widget image(String urlImage) {
-  return urlImage != null && urlImage.contains("https")
-      ? Image.network(
-          urlImage,
-          width: 120,
-          errorBuilder:
-              (BuildContext context, Object exception, StackTrace stackTrace) {
-            return Image.asset("assets/sem-image.png", width: 120);
-          },
-        )
-      : Image.asset("assets/sem-image.png", width: 120);
+  try {
+    return urlImage != null && urlImage.contains("https")
+        ? Image.network(
+            urlImage,
+            height: 100,
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace stackTrace) {
+              return Image.asset(
+                "assets/sem-image.png",
+                width: 80,
+              );
+            },
+          )
+        : Image.asset("assets/sem-image.png", width: 80);
+  } catch (e) {
+    return Image.asset("assets/sem-image.png", width: 80);
+  }
 }
 
 Widget producerPrinciple(String producer) {

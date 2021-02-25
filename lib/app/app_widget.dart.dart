@@ -5,8 +5,9 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BuscaMed',
+      title: 'Buscamed',
       debugShowCheckedModeBanner: false,
+      debugShowMaterialGrid: false,
       theme: ThemeData(
         visualDensity: VisualDensity.comfortable,
       ),

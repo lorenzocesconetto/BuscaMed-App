@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:buscamed/app/modules/login/components/input_email_component.dart';
 import 'package:buscamed/app/modules/login/components/input_password_component.dart';
 import 'package:buscamed/app/modules/login/components/input_zipcode_component.dart';
-import 'package:buscamed/app/modules/login/controllers/auth_controller.dart';
 import 'package:buscamed/app/modules/user/controllers/user_controller.dart';
 import 'package:buscamed/app/modules/user/models/user_model.dart';
 import 'package:buscamed/app/shared/cepSearch/CepModel.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class UserFormPage extends StatefulWidget {
   @override
@@ -21,8 +23,9 @@ class UserFormPage extends StatefulWidget {
 }
 
 class _UserFormPageState extends State<UserFormPage> {
-  final loginController = Modular.get<AuthController>();
   final userController = Modular.get<UserController>();
+  var maskFormatterCPF = new MaskTextInputFormatter(
+      mask: '#####-###', filter: {"#": RegExp(r'[0-9]')});
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -37,22 +40,81 @@ class _UserFormPageState extends State<UserFormPage> {
   final cityController = TextEditingController();
   final stateController = TextEditingController();
 
+  UserModel user;
+  String textSearchZipCode = '';
+  Timer _debounce;
+
+  @override
+  void initState() {
+    zipCodeController.addListener(() => listeningZipCodeInput());
+    super.initState();
+    if (userController.user != null) {
+      user = userController.user;
+      textSearchZipCode = maskFormatterCPF.maskText(user.cep);
+      setDate();
+    }
+  }
+
+  listeningZipCodeInput() {
+    String search = zipCodeController.value.text;
+    if (_debounce?.isActive ?? false) _debounce.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      if (search.length == 9 && textSearchZipCode != search) {
+        textSearchZipCode = search;
+        await searchZipCode();
+      } else if (search.length == 0 && textSearchZipCode != search) {
+        textSearchZipCode = search;
+        cleanAddress();
+      }
+    });
+  }
+
+  setDate() {
+    nameController.text = user.name;
+    phoneController.text = user.phone;
+    passwordController.text = user.password;
+    emailController.text = user.email;
+    zipCodeController.text = maskFormatterCPF.maskText(user.cep);
+    streetController.text = user.logradouro;
+    numberController.text = user.complemento;
+    blockController.text = user.bairro;
+    cityController.text = user.municipio;
+    stateController.text = user.uf;
+  }
+
   bool diferrentPass = false;
 
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> login() async {
+  Future<void> register() async {
     if (_formKey.currentState.validate()) {
-      if (passwordController.text != passwordCheckController.text) {
-        setState(() => diferrentPass = true);
-      } else {
-        setState(() => diferrentPass = false);
+      if (user == null) {
+        if (passwordController.text != passwordCheckController.text) {
+          setState(() => diferrentPass = true);
+        } else {
+          setState(() => diferrentPass = false);
 
-        UserModel newuser = new UserModel(
+          UserModel userModel = new UserModel(
+              name: nameController.text,
+              email: emailController.text,
+              phone: phoneController.text,
+              password: passwordController.text,
+              logradouro: streetController.text,
+              complemento: numberController.text,
+              bairro: blockController.text,
+              municipio: cityController.text,
+              uf: stateController.text,
+              cep: zipCodeController.text.replaceAll(RegExp('-'), ''));
+
+          await userController.createUser(userModel);
+          if (userController.user != null) {
+            Modular.to.pushNamed("/login");
+          }
+        }
+      } else {
+        UserModel userModel = new UserModel(
             name: nameController.text,
-            email: emailController.text,
             phone: phoneController.text,
-            password: passwordController.text,
             logradouro: streetController.text,
             complemento: numberController.text,
             bairro: blockController.text,
@@ -60,10 +122,10 @@ class _UserFormPageState extends State<UserFormPage> {
             uf: stateController.text,
             cep: zipCodeController.text.replaceAll(RegExp('-'), ''));
 
-        await userController.createUser(newuser);
-        if (userController.user != null) {
-          Modular.to.pushNamed("/login");
-        } else {}
+        await userController.editUser(userModel);
+        if (userController.errors == null) {
+          Modular.to.pop();
+        }
       }
     }
   }
@@ -76,13 +138,31 @@ class _UserFormPageState extends State<UserFormPage> {
       blockController.text = addressInfo.bairro;
       cityController.text = addressInfo.localidade;
       stateController.text = addressInfo.uf;
+    } else {
+      cleanAddress();
     }
+  }
+
+  cleanAddress() {
+    streetController.text = "";
+    blockController.text = "";
+    cityController.text = "";
+    stateController.text = "";
   }
 
   @override
   void dispose() {
     super.dispose();
     userController.cleanErrors();
+    emailController.dispose();
+    passwordController.dispose();
+    phoneController.dispose();
+    passwordCheckController.dispose();
+    zipCodeController.dispose();
+    streetController.dispose();
+    numberController.dispose();
+    blockController.dispose();
+    stateController.dispose();
   }
 
   @override
@@ -97,10 +177,12 @@ class _UserFormPageState extends State<UserFormPage> {
             children: [
               HeaderComponent(
                 action: () => Modular.to.pop(),
-                title: 'Criação de Conta',
+                title: user == null ? 'Criação de Conta' : 'Editar dados',
               ),
               Padding(
-                padding: const EdgeInsets.all(36.0),
+                padding: user == null
+                    ? EdgeInsets.all(36.0)
+                    : EdgeInsets.symmetric(vertical: 0, horizontal: 36),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -109,27 +191,35 @@ class _UserFormPageState extends State<UserFormPage> {
                     children: [
                       Column(
                         children: [
-                          Text(
-                              'Preencha os campos abaixo para criar uma conta e acessar o Buscamed com todos os recursos disponíveis.'),
+                          user == null
+                              ? Text(
+                                  'Preencha os campos abaixo para criar uma conta e acessar o Buscamed com todos os recursos disponíveis.')
+                              : SizedBox(),
                           InputComponent(
                             checkEmpty: true,
                             label: 'Nome',
                             controller: nameController,
                           ),
-                          EmailInputComponent(
-                            controller: emailController,
-                          ),
+                          user == null
+                              ? EmailInputComponent(
+                                  controller: emailController,
+                                )
+                              : SizedBox(),
                           PhoneInputComponent(
                             controller: phoneController,
                           ),
-                          PasswordInputComponent(
-                            label: "Senha (Mínimo 7 digitos)",
-                            controller: passwordController,
-                          ),
-                          PasswordInputComponent(
-                            controller: passwordCheckController,
-                            label: 'Confirmar senha',
-                          ),
+                          user == null
+                              ? PasswordInputComponent(
+                                  label: "Senha (Mínimo 7 digitos)",
+                                  controller: passwordController,
+                                )
+                              : SizedBox(),
+                          user == null
+                              ? PasswordInputComponent(
+                                  controller: passwordCheckController,
+                                  label: 'Confirmar senha',
+                                )
+                              : SizedBox(),
                         ],
                       ),
                       SizedBox(height: 20),
@@ -141,7 +231,7 @@ class _UserFormPageState extends State<UserFormPage> {
                         ),
                       ),
                       Divider(),
-                      SizedBox(height: 20),
+                      user == null ? SizedBox(height: 20) : SizedBox(),
                       Column(
                         children: [
                           Row(
@@ -150,13 +240,13 @@ class _UserFormPageState extends State<UserFormPage> {
                                   child: ZipcodeInputComponent(
                                 controller: zipCodeController,
                               )),
-                              Observer(builder: (_) {
-                                return ButtonComponent(
-                                  loading: userController.loading,
-                                  text: 'Buscar',
-                                  onPressed: () => searchZipCode(),
-                                );
-                              })
+                              // Observer(builder: (_) {
+                              //   return ButtonComponent(
+                              //     loading: userController.loading,
+                              //     text: 'Buscar',
+                              //     onPressed: () => searchZipCode(),
+                              //   );
+                              // })
                             ],
                           ),
                           Row(
@@ -214,8 +304,8 @@ class _UserFormPageState extends State<UserFormPage> {
                             _errorMsg(),
                             ButtonComponent(
                               loading: userController.loading,
-                              text: 'REGISTRAR',
-                              onPressed: () => login(),
+                              text: user == null ? 'REGISTRAR' : 'EDITAR',
+                              onPressed: () => register(),
                             ),
                           ],
                         ),
@@ -231,9 +321,12 @@ class _UserFormPageState extends State<UserFormPage> {
 
   Widget _errorMsg() {
     return userController.errors != null
-        ? Text(
-            userController.errors,
-            style: TextStyle(color: Colors.red),
+        ? Padding(
+            padding: EdgeInsets.symmetric(vertical: 16.0),
+            child: Text(
+              userController.errors,
+              style: TextStyle(color: Colors.red),
+            ),
           )
         : Container();
   }

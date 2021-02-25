@@ -18,7 +18,7 @@ class ButtonSecundaryComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: GestureDetector(
+      child: InkWell(
         onTap: onPressed,
         child: Container(
           decoration: BoxDecoration(

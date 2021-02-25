@@ -15,6 +15,12 @@ mixin _$HomeController on _HomeController, Store {
   bool get loading => (_$loadingComputed ??=
           Computed<bool>(() => super.loading, name: '_HomeController.loading'))
       .value;
+  Computed<dynamic> _$errorComputed;
+
+  @override
+  dynamic get error => (_$errorComputed ??=
+          Computed<dynamic>(() => super.error, name: '_HomeController.error'))
+      .value;
 
   final _$_loadingStatusAtom = Atom(name: '_HomeController._loadingStatus');
 
@@ -28,6 +34,21 @@ mixin _$HomeController on _HomeController, Store {
   set _loadingStatus(bool value) {
     _$_loadingStatusAtom.reportWrite(value, super._loadingStatus, () {
       super._loadingStatus = value;
+    });
+  }
+
+  final _$_errorAtom = Atom(name: '_HomeController._error');
+
+  @override
+  String get _error {
+    _$_errorAtom.reportRead();
+    return super._error;
+  }
+
+  @override
+  set _error(String value) {
+    _$_errorAtom.reportWrite(value, super._error, () {
+      super._error = value;
     });
   }
 
@@ -53,11 +74,37 @@ mixin _$HomeController on _HomeController, Store {
     return _$getHomeAsyncAction.run(() => super.getHome());
   }
 
+  final _$_HomeControllerActionController =
+      ActionController(name: '_HomeController');
+
+  @override
+  dynamic setLoading(dynamic value) {
+    final _$actionInfo = _$_HomeControllerActionController.startAction(
+        name: '_HomeController.setLoading');
+    try {
+      return super.setLoading(value);
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setError(dynamic value) {
+    final _$actionInfo = _$_HomeControllerActionController.startAction(
+        name: '_HomeController.setError');
+    try {
+      return super.setError(value);
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 products: ${products},
-loading: ${loading}
+loading: ${loading},
+error: ${error}
     ''';
   }
 }

@@ -1,4 +1,5 @@
 import 'package:buscamed/app/modules/user/controllers/user_controller.dart';
+import 'package:buscamed/app/shared/components/button_secundary_component.dart';
 import 'package:buscamed/app/shared/components/header_component.dart';
 import 'package:buscamed/app/shared/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,12 @@ class UserInfoPage extends StatefulWidget {
 
 class _UserInfoPageState extends State<UserInfoPage> {
   final userController = Modular.get<UserController>();
+
+  @override
+  void initState() {
+    super.initState();
+    userController.getUserLogin();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +73,18 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                     dateUser('Cidade',
                                         userController.user.municipio),
                                     dateUser('Estado', userController.user.uf),
+                                    ButtonSecundaryComponent(
+                                      text: 'Editar',
+                                      onPressed: () =>
+                                          Modular.to.pushNamed('/user-form'),
+                                    )
                                   ],
                                 );
-                              } else {
+                              } else if (userController.loading) {
                                 return Center(
                                     child: CircularProgressIndicator());
+                              } else {
+                                return Text(userController.errors);
                               }
                             },
                           ),

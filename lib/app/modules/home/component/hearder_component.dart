@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:buscamed/app/modules/home/controllers/home_controller.dart';
 import 'package:buscamed/app/shared/components/logo_component.dart';
 import 'package:buscamed/app/shared/components/search_input_component.dart';
 import 'package:buscamed/app/shared/utils/colors.dart';
@@ -11,6 +14,36 @@ class HomeHeaderComponent extends StatefulWidget {
 }
 
 class _HomeHeaderComponentState extends State<HomeHeaderComponent> {
+  final homeController = Modular.get<HomeController>();
+
+  final searchTextController = TextEditingController();
+  Timer _debounce;
+  String searchProduct = '';
+
+  @override
+  void initState() {
+    searchTextController.addListener(() => listeningSearchInput());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    searchTextController.dispose();
+    super.dispose();
+  }
+
+  listeningSearchInput() {
+    String search = searchTextController.value.text.trim();
+    if (_debounce?.isActive ?? false) _debounce.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      if (searchProduct != search) {
+        searchProduct = search;
+        await homeController.getSearch(
+            searchName: searchTextController.value.text);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -66,7 +99,10 @@ class _HomeHeaderComponentState extends State<HomeHeaderComponent> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(child: SearchInputComponent()),
+                Expanded(
+                    child: SearchInputComponent(
+                  controller: searchTextController,
+                )),
                 // GestureDetector(
                 //   onTap: () => _settingModalBottomSheet(context),
                 //   child: Padding(

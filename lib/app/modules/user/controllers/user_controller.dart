@@ -60,9 +60,10 @@ abstract class _UserController with Store {
     _loadingStatus = false;
     if (user != null) {
       _errors = null;
-      this._user = UserModel.fromJson(user);
+      await getUserLogin();
       return true;
     } else {
+      _errors = "Erro ao Editar";
       return false;
     }
   }
@@ -79,7 +80,7 @@ abstract class _UserController with Store {
     _loadingStatus = true;
     CepModel addressInfo = await searchAddressRepository.getInfoByCep(cep);
     _loadingStatus = false;
-    if (addressInfo != null) {
+    if (addressInfo != null && addressInfo.cep != null) {
       _errors = null;
       return addressInfo;
     } else {

@@ -34,7 +34,7 @@ class UserRepository {
   Future<dynamic> editUser(UserModel model) async {
     try {
       var response =
-          await baseRepository.post(url: "/users", body: model.toJson());
+          await baseRepository.post(url: "/user", body: model.editToJson());
       if (response.data != null) {
         return response.data;
       }

@@ -17,7 +17,7 @@ class _DocumentLoginComponentState extends State<DocumentLoginComponent> {
       padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
       child: Column(children: [
         Text(
-            "Para usar o BuscaMed sem cadastro, digite o seu CEP para que possamos localizar as melhores ofertas em sua região."),
+            "Para usar o Buscamed sem cadastro, digite o seu CEP para que possamos localizar as melhores ofertas em sua região."),
         ZipcodeInputComponent(),
         SizedBox(height: 20),
         ButtonComponent(

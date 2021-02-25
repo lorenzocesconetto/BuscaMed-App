@@ -20,6 +20,9 @@ abstract class _HomeController with Store {
   bool get loading => _loadingStatus;
 
   @observable
+  String _error;
+
+  @observable
   PageProductModel products = new PageProductModel(items: []);
 
   @action
@@ -31,4 +34,29 @@ abstract class _HomeController with Store {
     }
     _loadingStatus = false;
   }
+
+  Future<void> getSearch({String searchName}) async {
+    if (searchName.isNotEmpty) {
+      setLoading(true);
+      setError(null);
+
+      dynamic jsonProducts =
+          await repository.searchProduct(searchName: searchName);
+      if (jsonProducts != null) {
+        products = PageProductModel.fromJson(jsonProducts);
+      }
+      setLoading(false);
+    } else {
+      await getHome();
+    }
+  }
+
+  @computed
+  get error => this._error;
+
+  @action
+  setLoading(value) => this._loadingStatus = value;
+
+  @action
+  setError(value) => this._error = value;
 }

@@ -66,7 +66,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                                     "Ops! Não encontramos um usuário com esse email")
                                 : SizedBox(height: 5);
                           }),
-                          EmailInputComponent(),
+                          EmailInputComponent(
+                            controller: emailController,
+                          ),
                         ],
                       ),
                       Observer(builder: (_) {

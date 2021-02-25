@@ -9,12 +9,14 @@ class BaseRepository {
 
   BaseRepository(this.dio, this.localStorageService);
 
-  getHearder() async {
-    String token = await localStorageService.get("auth_token");
+  getHearder({bool getToken = true}) async {
     dio.options.headers['content-type'] = 'application/json';
-    if (token != null)
-      dio.options.headers["authorization"] =
-          'Basic ' + base64Encode(utf8.encode('$token:' ''));
+    if (getToken) {
+      String token = await localStorageService.get("auth_token");
+      if (token != null)
+        dio.options.headers["authorization"] =
+            'Basic ' + base64Encode(utf8.encode('$token:' ''));
+    }
   }
 
   Future get({String url}) async {
@@ -22,8 +24,8 @@ class BaseRepository {
     return await dio.get(url);
   }
 
-  Future post({String url, dynamic body}) async {
-    await getHearder();
+  Future post({String url, dynamic body, bool getToken = true}) async {
+    await getHearder(getToken: getToken);
     return await dio.post(url, data: body);
   }
 

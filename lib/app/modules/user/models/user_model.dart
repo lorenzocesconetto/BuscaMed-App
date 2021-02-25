@@ -54,4 +54,15 @@ class UserModel {
         "municipio": municipio,
         "uf": uf,
       };
+
+  Map<String, dynamic> editToJson() => {
+        "name": name,
+        "phone": phone,
+        "cep": cep,
+        "logradouro": logradouro,
+        "complemento": complemento,
+        "bairro": bairro,
+        "municipio": municipio,
+        "uf": uf,
+      };
 }

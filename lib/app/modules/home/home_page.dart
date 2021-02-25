@@ -15,26 +15,37 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final homeController = Modular.get<HomeController>();
-  var _controller = ScrollController();
+
+  int _page = 1;
+  int _pageNext = 1;
+  ScrollController _scrollProductController;
 
   @override
   void initState() {
     super.initState();
     homeController.getHome();
 
-    _controller.addListener(() {
-      if (_controller.position.atEdge) {
-        //Começo
-        if (_controller.position.pixels == 0) {
-          print("atEdge ${_controller.position.atEdge}");
-          print("final ${_controller.position.pixels}");
-        } else {
-          print("else ${_controller.position.atEdge}");
-          print("final ${_controller.position.maxScrollExtent}");
-        }
-      }
-    });
+    // _scrollProductController = new ScrollController()
+    //   ..addListener(_scrollListener);
   }
+
+  // void _scrollListener() {
+  //   if (_scrollProductController.position.extentAfter <= 0.5) {
+  //     if (_page != _pageNext &&
+  //         HomeController.productStore.getNextPage() != null) {
+  //       setState(() => _page++);
+  //       syncCategory();
+  //     }
+  //   }
+  // }
+  //
+  // syncCategory() async {
+  //   await homeController.getProducts(
+  //     page: _pageNext,
+  //     keepResult: true,
+  //   );
+  //   setState(() => _pageNext++);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +53,8 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: ThemeColors.gray,
       body: SafeArea(
           child: Observer(
-        builder: (_) => CustomScrollView(controller: _controller, slivers: [
+        builder: (_) =>
+            CustomScrollView(controller: _scrollProductController, slivers: [
           HomeHeaderComponent(),
           SliverToBoxAdapter(
             child: Visibility(

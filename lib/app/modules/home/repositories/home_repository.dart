@@ -16,4 +16,17 @@ class HomeRepository {
       return null;
     }
   }
+
+  Future<dynamic> searchProduct({String searchName, int page = 1}) async {
+    try {
+      var response =
+          await baseRepository.get(url: "/search?q=$searchName&page=$page");
+      if (response.data != null) {
+        return response.data;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }
