@@ -69,6 +69,7 @@ abstract class _AuthController with Store {
   void setUserController(String token) async {
     await userController.getUserLogin();
     auth_token = userController.errors == null;
+    if (!auth_token) await this.logout();
   }
 
   @computed

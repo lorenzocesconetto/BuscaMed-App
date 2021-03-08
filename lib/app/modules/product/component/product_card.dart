@@ -80,13 +80,19 @@ class _ProductCardComponentState extends State<ProductCardComponent> {
   }
 }
 
-Text PriceFormat(double best_price) {
-  final oCcy = new NumberFormat("#,##0.00", "pt-Br");
+Row PriceFormat(double best_price) {
+  final formatNumbe = new NumberFormat("#,##0.00", "pt-Br");
+  var price = formatNumbe.format(best_price).split(',');
 
-  return Text(
-    "R\$ ${oCcy.format(best_price)}",
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.baseline,
+    children: [
+    Text(
+    "R\$ ${price[0]},",
     style: TextStyle(fontSize: 20, color: ThemeColors.price_red),
-  );
+  ),Text(
+    "${price[1]}",
+    style: TextStyle(fontSize: 14, color: Colors.black))],);
 }
 
 Widget activePrinciple(String active_principle) {

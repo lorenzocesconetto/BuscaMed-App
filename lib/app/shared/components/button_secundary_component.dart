@@ -29,13 +29,15 @@ class ButtonSecundaryComponent extends StatelessWidget {
           child: Center(
             child: loading
                 ? CircularProgressIndicator()
-                : Text(
-                    text,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                      fontFamily: 'Lato-Black',
-                      letterSpacing: 1.0,
+                : FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Lato-Black',
+                        letterSpacing: 1.0,
+                      ),
                     ),
                   ),
           ),

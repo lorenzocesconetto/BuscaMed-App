@@ -25,8 +25,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     homeController.getHome();
 
-    // _scrollProductController = new ScrollController()
-    //   ..addListener(_scrollListener);
+    _scrollProductController = new ScrollController();
   }
 
   // void _scrollListener() {
@@ -47,6 +46,11 @@ class _HomePageState extends State<HomePage> {
   //   setState(() => _pageNext++);
   // }
 
+  backOnTop() {
+    _scrollProductController.animateTo(0,
+        duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +59,7 @@ class _HomePageState extends State<HomePage> {
           child: Observer(
         builder: (_) =>
             CustomScrollView(controller: _scrollProductController, slivers: [
-          HomeHeaderComponent(),
+          HomeHeaderComponent(scrollTop: () => backOnTop()),
           SliverToBoxAdapter(
             child: Visibility(
               visible: homeController.loading,

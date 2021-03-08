@@ -28,6 +28,7 @@ class ProductModel {
 class PriceModel {
   String name;
   String store;
+  String url;
   double price;
   double promotion_price;
   String promotion_qty;
@@ -39,6 +40,7 @@ class PriceModel {
       {this.name,
       this.store,
       this.price,
+      this.url,
       this.promotion_price,
       this.promotion_qty,
       this.description,
@@ -49,6 +51,7 @@ class PriceModel {
         name: json["name"],
         store: json["store"],
         price: json["price"],
+        url: json["url"],
         promotion_price: json["promotion_price"],
         promotion_qty:
             json["promotion_qty"] != 0 ? json["promotion_qty"].toString() : "1",
@@ -60,6 +63,7 @@ class PriceModel {
         "name": name,
         "store": store,
         "price": price,
+        "url": url,
         "promotion_price": promotion_price,
         "promotion_qty": promotion_qty,
         "description": description,

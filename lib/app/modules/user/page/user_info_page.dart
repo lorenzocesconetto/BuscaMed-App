@@ -107,7 +107,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             title,
             style: TextStyle(color: Colors.green),
           ),
-          Text(date)
+          date != null ? Text(date): SizedBox()
         ],
       ),
     );

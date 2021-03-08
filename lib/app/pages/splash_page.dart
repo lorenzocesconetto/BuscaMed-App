@@ -1,4 +1,5 @@
 import 'package:buscamed/app/modules/login/controllers/auth_controller.dart';
+import 'package:buscamed/app/modules/user/controllers/user_controller.dart';
 import 'package:buscamed/app/shared/components/logo_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class SplashScreenPage extends StatefulWidget {
 
 class _MyHomePageState extends State<SplashScreenPage> {
   final authController = Modular.get<AuthController>();
+  final userController = Modular.get<UserController>();
 
   @override
   void initState() {

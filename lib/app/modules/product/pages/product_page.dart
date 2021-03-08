@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductPage extends StatefulWidget {
   final id;
@@ -123,14 +125,21 @@ Widget PricesProduct(List<PriceModel> prices) {
 }
 
 Widget RowPrice(PriceModel price) {
-  return Padding(
-    padding: EdgeInsets.all(8.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("${price.store}"),
-        Text("R\$ ${price.price}"),
-      ],
+  final formatNumber = new NumberFormat("#,##0.00", "pt-Br");
+
+  return InkWell(
+    onTap: () async => await canLaunch(price.url)
+        ? await launch(price.url)
+        : throw 'Could not launch $price.url',
+    child: Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("${price.store}"),
+          Text("R\$ ${formatNumber.format(price.price)}"),
+        ],
+      ),
     ),
   );
 }

@@ -9,6 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class HomeHeaderComponent extends StatefulWidget {
+  final Function scrollTop;
+
+  HomeHeaderComponent({this.scrollTop});
+
   @override
   _HomeHeaderComponentState createState() => _HomeHeaderComponentState();
 }
@@ -40,6 +44,7 @@ class _HomeHeaderComponentState extends State<HomeHeaderComponent> {
         searchProduct = search;
         await homeController.getSearch(
             searchName: searchTextController.value.text);
+        widget.scrollTop();
       }
     });
   }
@@ -103,16 +108,6 @@ class _HomeHeaderComponentState extends State<HomeHeaderComponent> {
                     child: SearchInputComponent(
                   controller: searchTextController,
                 )),
-                // GestureDetector(
-                //   onTap: () => _settingModalBottomSheet(context),
-                //   child: Padding(
-                //     padding: EdgeInsets.only(left: 16.0),
-                //     child: Icon(
-                //       Icons.filter_list_outlined,
-                //       color: ThemeColors.input_blue,
-                //     ),
-                //   ),
-                // )
               ],
             ),
           ],

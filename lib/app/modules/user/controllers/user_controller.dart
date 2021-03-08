@@ -43,12 +43,12 @@ abstract class _UserController with Store {
     _loadingStatus = true;
     dynamic user = await repository.createUser(newUser);
     _loadingStatus = false;
-    if (user != null) {
+    if (user["success"] != null) {
       _errors = null;
       this._user = UserModel.fromJson(user);
       return true;
     } else {
-      _errors = 'Falha ao Criar usuário';
+      _errors = user['message']['email'] ?? 'Falha ao Criar usuário';
       return false;
     }
   }

@@ -56,6 +56,7 @@ class AppModule extends MainModule {
         ModularRouter('/home', child: (_, __) => HomePage()),
         ModularRouter('/forget-pass', child: (_, __) => ForgetPasswordPage()),
         ModularRouter('/user-form', child: (_, __) => UserFormPage()),
+        ModularRouter('/user-form', child: (_, __) => UserFormPage()),
         ModularRouter('/user', child: (_, __) => UserInfoPage()),
         ModularRouter('/client-form', child: (_, __) => HomePage()),
         ModularRouter('/login', child: (_, __) => LoginPage()),

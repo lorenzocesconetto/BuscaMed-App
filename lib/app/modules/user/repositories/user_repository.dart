@@ -1,5 +1,6 @@
 import 'package:buscamed/app/modules/user/models/user_model.dart';
 import 'package:buscamed/app/shared/repositories/BaseRepository.dart';
+import 'package:dio/dio.dart';
 
 class UserRepository {
   final BaseRepository baseRepository;
@@ -25,6 +26,9 @@ class UserRepository {
       if (response.data["success"]) {
         return response.data;
       }
+    } on DioError catch (dioError) {
+      print(dioError);
+      return dioError.response.data;
     } catch (e) {
       print(e);
       return null;
