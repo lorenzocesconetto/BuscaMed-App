@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     homeController.getHome();
+    homeController.cleanSuggest();
 
     _scrollProductController = new ScrollController();
   }
@@ -69,32 +70,65 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SliverGrid(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 350.0,
-              mainAxisSpacing: 5.0,
-              crossAxisSpacing: .0,
-              childAspectRatio: 0.6,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return ProductCardComponent(
-                  id: homeController.products.items[index].id,
-                  name: homeController.products.items[index].name,
-                  producer: homeController.products.items[index].producer,
-                  best_price: homeController.products.items[index].best_price,
-                  img_small: homeController.products.items[index].img_small,
-                  active_principle:
-                      homeController.products.items[index].active_principle,
-                );
-              },
-              childCount: homeController.products.items.length,
-              addRepaintBoundaries: true,
-              addAutomaticKeepAlives: true,
-            ),
-          ),
+          homeController.sugests == null
+              ? SliverGrid(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 350.0,
+                    mainAxisSpacing: 5.0,
+                    crossAxisSpacing: .0,
+                    childAspectRatio: 0.6,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      return ProductCardComponent(
+                        id: homeController.products.items[index].id,
+                        name: homeController.products.items[index].name,
+                        producer: homeController.products.items[index].producer,
+                        best_price:
+                            homeController.products.items[index].best_price,
+                        img_small:
+                            homeController.products.items[index].img_small,
+                        active_principle: homeController
+                            .products.items[index].active_principle,
+                      );
+                    },
+                    childCount: homeController.products.items.length,
+                    addRepaintBoundaries: true,
+                    addAutomaticKeepAlives: true,
+                  ),
+                )
+              : SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return listSugest(homeController.sugests[index]);
+                  },
+                  childCount: homeController.sugests.length,
+                )),
         ]),
       )),
     );
+  }
+
+  Widget listSugest(String suggest) {
+    return InkWell(
+      onTap: () => selectSuggest(suggest),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(suggest.toLowerCase()),
+          ),
+          Divider(
+            height: 1,
+          )
+        ],
+      ),
+    );
+  }
+
+  selectSuggest(String suggest) {
+    homeController.getSearch(searchName: suggest);
+    backOnTop();
   }
 }

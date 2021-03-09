@@ -42,7 +42,7 @@ class _HomeHeaderComponentState extends State<HomeHeaderComponent> {
     _debounce = Timer(const Duration(milliseconds: 500), () async {
       if (searchProduct != search) {
         searchProduct = search;
-        await homeController.getSearch(
+        await homeController.autoComplete(
             searchName: searchTextController.value.text);
         widget.scrollTop();
       }

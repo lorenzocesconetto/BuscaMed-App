@@ -23,6 +23,9 @@ abstract class _HomeController with Store {
   String _error;
 
   @observable
+  List<String> sugests;
+
+  @observable
   PageProductModel products = new PageProductModel(items: []);
 
   @action
@@ -35,8 +38,10 @@ abstract class _HomeController with Store {
     _loadingStatus = false;
   }
 
-  Future<void> getSearch({String searchName}) async {
+  @action
+  getSearch({String searchName}) async {
     if (searchName.isNotEmpty) {
+      cleanSuggest();
       setLoading(true);
       setError(null);
 
@@ -51,6 +56,26 @@ abstract class _HomeController with Store {
     }
   }
 
+  @action
+  autoComplete({String searchName}) async {
+    if (searchName.isNotEmpty) {
+      setLoading(true);
+      setError(null);
+
+      dynamic jsonProducts =
+          await repository.autoComplete(searchName: searchName);
+      if (jsonProducts != null) {
+        List<String> suggest = new List<String>();
+        jsonProducts.forEach((product) => suggest.add(product['name']));
+        sugests = suggest;
+      }
+      setLoading(false);
+    } else {
+      cleanSuggest();
+      await getHome();
+    }
+  }
+
   @computed
   get error => this._error;
 
@@ -59,4 +84,7 @@ abstract class _HomeController with Store {
 
   @action
   setError(value) => this._error = value;
+
+  @action
+  cleanSuggest() => this.sugests = null;
 }

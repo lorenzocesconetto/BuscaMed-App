@@ -29,4 +29,17 @@ class HomeRepository {
       return null;
     }
   }
+
+  Future<dynamic> autoComplete({String searchName}) async {
+    try {
+      var response =
+          await baseRepository.get(url: "/autocomplete?q=$searchName");
+      if (response.data != null) {
+        return response.data;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }
