@@ -12,8 +12,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ProductPage extends StatefulWidget {
   final id;
+  final mainPrice;
 
-  ProductPage({this.id});
+  ProductPage({this.id, this.mainPrice});
 
   @override
   _ProductPageState createState() => _ProductPageState();
@@ -88,77 +89,90 @@ class _ProductPageState extends State<ProductPage> {
       )),
     );
   }
-}
 
-Image ImageProduct(String urlImage) {
-  return urlImage != null && urlImage.contains("https")
-      ? Image.network(
-          urlImage,
-          height: 150,
-          errorBuilder:
-              (BuildContext context, Object exception, StackTrace stackTrace) {
-            return Image.asset(
-              "assets/sem-image.png",
-              height: 150,
-            );
-          },
-        )
-      : Image.asset(
-          "assets/sem-image.png",
-          height: 150,
-        );
-}
+  Image ImageProduct(String urlImage) {
+    return urlImage != null && urlImage.contains("https")
+        ? Image.network(
+            urlImage,
+            height: 150,
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace stackTrace) {
+              return Image.asset(
+                "assets/sem-image.png",
+                height: 150,
+              );
+            },
+          )
+        : Image.asset(
+            "assets/sem-image.png",
+            height: 150,
+          );
+  }
 
-Widget PricesProduct(List<PriceModel> prices) {
-  return Padding(
-    padding: EdgeInsets.only(top: 16.0),
-    child: GroupedListView<dynamic, String>(
-      shrinkWrap: true,
-      elements: prices,
-      separator: Divider(),
-      groupBy: (price) => price.promotion_qty,
-      groupSeparatorBuilder: (dynamic price) => SeparatorUnit(price),
-      itemBuilder: (context, dynamic price) => RowPrice(price),
-      order: GroupedListOrder.ASC,
-    ),
-  );
-}
-
-Widget RowPrice(PriceModel price) {
-  final formatNumber = new NumberFormat("#,##0.00", "pt-Br");
-
-  return InkWell(
-    onTap: () async => await canLaunch(price.url)
-        ? await launch(price.url)
-        : throw 'Could not launch $price.url',
-    child: Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text("${price.store}"),
-          Text("R\$ ${formatNumber.format(price.price)}"),
-        ],
+  Widget PricesProduct(List<PriceModel> prices) {
+    return Padding(
+      padding: EdgeInsets.only(top: 16.0),
+      child: GroupedListView<dynamic, String>(
+        shrinkWrap: true,
+        elements: prices,
+        separator: Divider(),
+        groupBy: (price) => price.promotion_qty,
+        groupSeparatorBuilder: (dynamic price) => SeparatorUnit(price),
+        itemBuilder: (context, dynamic price) => RowPrice(price),
+        order: GroupedListOrder.ASC,
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget SeparatorUnit(String number) {
-  String text =
-      int.tryParse(number) == 1 ? '$number Unidade' : '$number Unidades';
-  return Padding(
-    padding: const EdgeInsets.only(top: 8.0),
-    child: Container(
-      color: ThemeColors.input_blue,
+  Widget RowPrice(PriceModel price) {
+    final bool bestPrice = price.price.toString() == widget.mainPrice;
+    final formatNumber = new NumberFormat("#,##0.00", "pt-Br");
+
+    return InkWell(
+      onTap: () async => await canLaunch(price.url)
+          ? await launch(price.url)
+          : throw 'Could not launch $price.url',
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
+        padding: EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "${price.store}",
+              style: TextStyle(
+                fontWeight: bestPrice ? FontWeight.bold : FontWeight.normal,
+                color: bestPrice ? Colors.blueAccent : Colors.black,
+              ),
+            ),
+            Text(
+              "R\$ ${formatNumber.format(price.price)}",
+              style: TextStyle(
+                color: bestPrice ? Colors.blueAccent : Colors.black,
+                fontWeight: bestPrice ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          ],
         ),
       ),
-    ),
-  );
+    );
+  }
+
+  Widget SeparatorUnit(String number) {
+    String text =
+        int.tryParse(number) == 1 ? '$number Unidade' : '$number Unidades';
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Container(
+        color: ThemeColors.input_blue,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
 }

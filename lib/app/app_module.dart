@@ -60,8 +60,9 @@ class AppModule extends MainModule {
         ModularRouter('/user', child: (_, __) => UserInfoPage()),
         ModularRouter('/client-form', child: (_, __) => HomePage()),
         ModularRouter('/login', child: (_, __) => LoginPage()),
-        ModularRouter('/product/:id',
-            child: (_, args) => ProductPage(id: args.params['id'])),
+        ModularRouter('/product/:id/:mainPrice',
+            child: (_, args) => ProductPage(
+                id: args.params['id'], mainPrice: args.params["mainPrice"])),
       ];
 
   @override

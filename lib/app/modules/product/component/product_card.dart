@@ -30,7 +30,8 @@ class _ProductCardComponentState extends State<ProductCardComponent> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Modular.to.pushNamed('/product/${widget.id}'),
+      onTap: () =>
+          Modular.to.pushNamed('/product/${widget.id}/${widget.best_price}'),
       child: Card(
         elevation: 1,
         color: Colors.white,
@@ -87,12 +88,13 @@ Row PriceFormat(double best_price) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.baseline,
     children: [
-    Text(
-    "R\$ ${price[0]},",
-    style: TextStyle(fontSize: 20, color: ThemeColors.price_red),
-  ),Text(
-    "${price[1]}",
-    style: TextStyle(fontSize: 14, color: Colors.black))],);
+      Text(
+        "R\$ ${price[0]},",
+        style: TextStyle(fontSize: 20, color: ThemeColors.price_red),
+      ),
+      Text("${price[1]}", style: TextStyle(fontSize: 14, color: Colors.black))
+    ],
+  );
 }
 
 Widget activePrinciple(String active_principle) {
