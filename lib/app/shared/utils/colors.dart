@@ -12,7 +12,7 @@ class ThemeColors {
 
   static const search_input = Color(0xFFEDF8FA);
 
-  static var price_red = Color(0xFFEE2F47);
+  static var price_red = Color(0xFF17a2b8);
   static var red = Color(0xFFA50F0F);
 
   static var background_product = Color(0xFFF5F5F5);
