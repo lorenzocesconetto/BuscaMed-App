@@ -39,10 +39,15 @@ abstract class _ProductController with Store {
               new InfoPrices(price.url, price.store, price.promotion_price)));
         }
       });
+    } else {
+      cleanProduct();
     }
     _loadingStatus = false;
   }
 
   @action
-  cleanProduct() {}
+  cleanProduct() {
+    products = null;
+    prices = [];
+  }
 }

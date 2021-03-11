@@ -30,6 +30,11 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeColors.background_product,
@@ -43,9 +48,10 @@ class _ProductPageState extends State<ProductPage> {
             title: 'Detalhes',
           ),
           Observer(builder: (_) {
-            if (productController.products == null ||
-                productController.loading) {
+            if (productController.loading) {
               return Center(child: CircularProgressIndicator());
+            } else if (productController.products == null) {
+              return Center(child: Text("Ocorre algum erro. Tente novamente."));
             } else {
               return Expanded(
                 flex: 1,
