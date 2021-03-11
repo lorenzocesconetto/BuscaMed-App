@@ -46,6 +46,21 @@ mixin _$ProductController on _ProductController, Store {
     });
   }
 
+  final _$pricesAtom = Atom(name: '_ProductController.prices');
+
+  @override
+  List<GroupPriceModel> get prices {
+    _$pricesAtom.reportRead();
+    return super.prices;
+  }
+
+  @override
+  set prices(List<GroupPriceModel> value) {
+    _$pricesAtom.reportWrite(value, super.prices, () {
+      super.prices = value;
+    });
+  }
+
   final _$getProductAsyncAction = AsyncAction('_ProductController.getProduct');
 
   @override
@@ -53,10 +68,25 @@ mixin _$ProductController on _ProductController, Store {
     return _$getProductAsyncAction.run(() => super.getProduct(id));
   }
 
+  final _$_ProductControllerActionController =
+      ActionController(name: '_ProductController');
+
+  @override
+  dynamic cleanProduct() {
+    final _$actionInfo = _$_ProductControllerActionController.startAction(
+        name: '_ProductController.cleanProduct');
+    try {
+      return super.cleanProduct();
+    } finally {
+      _$_ProductControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 products: ${products},
+prices: ${prices},
 loading: ${loading}
     ''';
   }

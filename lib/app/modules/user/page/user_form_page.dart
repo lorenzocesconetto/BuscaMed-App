@@ -153,6 +153,7 @@ class _UserFormPageState extends State<UserFormPage> {
   @override
   void dispose() {
     super.dispose();
+    cleanDates();
     userController.cleanErrors();
     emailController.dispose();
     passwordController.dispose();
@@ -163,6 +164,20 @@ class _UserFormPageState extends State<UserFormPage> {
     numberController.dispose();
     blockController.dispose();
     stateController.dispose();
+  }
+
+  cleanDates() {
+    nameController.text = null;
+    phoneController.text = null;
+    passwordController.text = null;
+    passwordCheckController.text = null;
+    emailController.text = null;
+    zipCodeController.text = null;
+    streetController.text = null;
+    numberController.text = null;
+    blockController.text = null;
+    cityController.text = null;
+    stateController.text = null;
   }
 
   @override

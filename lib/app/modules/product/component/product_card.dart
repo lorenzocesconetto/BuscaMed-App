@@ -92,7 +92,8 @@ Row PriceFormat(double best_price) {
         "R\$ ${price[0]},",
         style: TextStyle(fontSize: 20, color: ThemeColors.price_red),
       ),
-      Text("${price[1]}", style: TextStyle(fontSize: 14, color: Colors.black))
+      Text("${price[1]}",
+          style: TextStyle(fontSize: 14, color: ThemeColors.price_red))
     ],
   );
 }

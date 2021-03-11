@@ -31,7 +31,7 @@ class PriceModel {
   String url;
   double price;
   double promotion_price;
-  String promotion_qty;
+  int promotion_qty;
   String description;
   String active_principle;
   String producer;
@@ -53,8 +53,7 @@ class PriceModel {
         price: json["price"],
         url: json["url"],
         promotion_price: json["promotion_price"],
-        promotion_qty:
-            json["promotion_qty"] != 0 ? json["promotion_qty"].toString() : "1",
+        promotion_qty: json["promotion_qty"],
         description: json["description"],
         producer: json["producer"],
       );

@@ -52,6 +52,21 @@ mixin _$HomeController on _HomeController, Store {
     });
   }
 
+  final _$sugestsAtom = Atom(name: '_HomeController.sugests');
+
+  @override
+  List<String> get sugests {
+    _$sugestsAtom.reportRead();
+    return super.sugests;
+  }
+
+  @override
+  set sugests(List<String> value) {
+    _$sugestsAtom.reportWrite(value, super.sugests, () {
+      super.sugests = value;
+    });
+  }
+
   final _$productsAtom = Atom(name: '_HomeController.products');
 
   @override
@@ -72,6 +87,22 @@ mixin _$HomeController on _HomeController, Store {
   @override
   Future getHome() {
     return _$getHomeAsyncAction.run(() => super.getHome());
+  }
+
+  final _$getSearchAsyncAction = AsyncAction('_HomeController.getSearch');
+
+  @override
+  Future getSearch({String searchName}) {
+    return _$getSearchAsyncAction
+        .run(() => super.getSearch(searchName: searchName));
+  }
+
+  final _$autoCompleteAsyncAction = AsyncAction('_HomeController.autoComplete');
+
+  @override
+  Future autoComplete({String searchName}) {
+    return _$autoCompleteAsyncAction
+        .run(() => super.autoComplete(searchName: searchName));
   }
 
   final _$_HomeControllerActionController =
@@ -100,8 +131,20 @@ mixin _$HomeController on _HomeController, Store {
   }
 
   @override
+  dynamic cleanSuggest() {
+    final _$actionInfo = _$_HomeControllerActionController.startAction(
+        name: '_HomeController.cleanSuggest');
+    try {
+      return super.cleanSuggest();
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+sugests: ${sugests},
 products: ${products},
 loading: ${loading},
 error: ${error}

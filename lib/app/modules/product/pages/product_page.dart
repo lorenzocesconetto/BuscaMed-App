@@ -1,5 +1,5 @@
 import 'package:buscamed/app/modules/product/controllers/product_controller.dart';
-import 'package:buscamed/app/modules/product/models/product_model.dart';
+import 'package:buscamed/app/modules/product/models/group_price_model.dart';
 import 'package:buscamed/app/shared/components/header_component.dart';
 import 'package:buscamed/app/shared/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,41 +47,46 @@ class _ProductPageState extends State<ProductPage> {
                 productController.loading) {
               return Center(child: CircularProgressIndicator());
             } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ImageProduct(productController.products.img_small),
+              return Expanded(
+                flex: 1,
+                child: ListView(
+                  children: [
+                    Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child:
+                            ImageProduct(productController.products.img_small),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          productController.products.name,
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Divider(),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text("COMPARATIVO DE PREÇOS EM SUA REGIÃO"),
-                        ),
-                        PricesProduct(productController.products.prices)
-                      ],
-                    ),
-                  )
-                ],
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            productController.products.name,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Divider(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Text("COMPARATIVO DE PREÇOS EM SUA REGIÃO"),
+                          ),
+                          PricesProduct(productController.prices),
+                          SizedBox(
+                            height: 40,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               );
             }
           }),
@@ -109,14 +114,14 @@ class _ProductPageState extends State<ProductPage> {
           );
   }
 
-  Widget PricesProduct(List<PriceModel> prices) {
+  Widget PricesProduct(List<GroupPriceModel> prices) {
     return Padding(
       padding: EdgeInsets.only(top: 16.0),
       child: GroupedListView<dynamic, String>(
         shrinkWrap: true,
         elements: prices,
         separator: Divider(),
-        groupBy: (price) => price.promotion_qty,
+        groupBy: (price) => price.quant.toString(),
         groupSeparatorBuilder: (dynamic price) => SeparatorUnit(price),
         itemBuilder: (context, dynamic price) => RowPrice(price),
         order: GroupedListOrder.ASC,
@@ -124,28 +129,30 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  Widget RowPrice(PriceModel price) {
-    final bool bestPrice = price.price.toString() == widget.mainPrice;
+  Widget RowPrice(GroupPriceModel groupPriceModel) {
+    final infoProductPrice = groupPriceModel.infos;
+    final bool bestPrice =
+        infoProductPrice.price.toString() == widget.mainPrice;
     final formatNumber = new NumberFormat("#,##0.00", "pt-Br");
 
     return InkWell(
-      onTap: () async => await canLaunch(price.url)
-          ? await launch(price.url)
-          : throw 'Could not launch $price.url',
+      onTap: () async => await canLaunch(infoProductPrice.url)
+          ? await launch(infoProductPrice.url)
+          : throw 'Could not launch ${infoProductPrice.url}',
       child: Padding(
         padding: EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "${price.store}",
+              "${infoProductPrice.store}",
               style: TextStyle(
                 fontWeight: bestPrice ? FontWeight.bold : FontWeight.normal,
                 color: bestPrice ? Colors.blueAccent : Colors.black,
               ),
             ),
             Text(
-              "R\$ ${formatNumber.format(price.price)}",
+              "R\$ ${formatNumber.format(infoProductPrice.price)}",
               style: TextStyle(
                 color: bestPrice ? Colors.blueAccent : Colors.black,
                 fontWeight: bestPrice ? FontWeight.bold : FontWeight.normal,

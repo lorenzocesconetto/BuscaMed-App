@@ -57,6 +57,7 @@ abstract class _AuthController with Store {
   @action
   logout() async {
     await localStorage.delete("auth_token");
+    userController.cleanErrors();
     auth_token = null;
   }
 
