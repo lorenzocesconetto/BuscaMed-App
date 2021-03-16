@@ -54,6 +54,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 1.8;
+
     return Scaffold(
       backgroundColor: ThemeColors.gray,
       body: SafeArea(
@@ -73,10 +79,10 @@ class _HomePageState extends State<HomePage> {
           homeController.sugests == null
               ? SliverGrid(
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 350.0,
-                    mainAxisSpacing: 5.0,
-                    crossAxisSpacing: .0,
-                    childAspectRatio: 0.6,
+                    maxCrossAxisExtent: 320.0,
+                    mainAxisSpacing: 1.0,
+                    crossAxisSpacing: 1,
+                    childAspectRatio: (itemWidth / itemHeight),
                   ),
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
