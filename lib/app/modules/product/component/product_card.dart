@@ -47,14 +47,18 @@ class _ProductCardComponentState extends State<ProductCardComponent> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(widget.name,
-                        maxLines: 2,
-                        style: TextStyle(fontSize: 14),
-                        overflow: TextOverflow.ellipsis),
+                    Container(
+                      height: 40,
+                      child: Text(widget.name,
+                          maxLines: 2,
+                          style: TextStyle(fontSize: 16),
+                          overflow: TextOverflow.ellipsis),
+                    ),
                     SizedBox(
                       height: 10,
                     ),
                     activePrinciple(widget.active_principle),
+                    SizedBox(height: 5),
                     producerPrinciple(widget.producer),
                     SizedBox(
                       height: 10,
@@ -62,7 +66,7 @@ class _ProductCardComponentState extends State<ProductCardComponent> {
                     Text(
                       "A partir de",
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 16,
                       ),
                     ),
                     PriceFormat(widget.best_price),
@@ -90,10 +94,10 @@ Row PriceFormat(double best_price) {
     children: [
       Text(
         "R\$ ${price[0]},",
-        style: TextStyle(fontSize: 20, color: ThemeColors.price_red),
+        style: TextStyle(fontSize: 26, color: ThemeColors.price_red),
       ),
       Text("${price[1]}",
-          style: TextStyle(fontSize: 14, color: ThemeColors.price_red))
+          style: TextStyle(fontSize: 18, color: ThemeColors.price_red))
     ],
   );
 }
@@ -105,7 +109,7 @@ Widget activePrinciple(String active_principle) {
           active_principle,
           subtitleStyle(),
         )
-      : SizedBox();
+      : SizedBox(height: 20);
 }
 
 Widget image(String urlImage) {
@@ -113,7 +117,7 @@ Widget image(String urlImage) {
     return urlImage != null && urlImage.contains("https")
         ? Image.network(
             urlImage,
-            height: 100,
+            height: 80,
             errorBuilder: (BuildContext context, Object exception,
                 StackTrace stackTrace) {
               return Image.asset(
@@ -135,7 +139,9 @@ Widget producerPrinciple(String producer) {
           producer,
           subtitleStyle2(),
         )
-      : SizedBox();
+      : SizedBox(
+          height: 20,
+        );
 }
 
 TextStyle subtitleStyle() {

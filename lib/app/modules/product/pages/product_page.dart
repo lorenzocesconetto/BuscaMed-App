@@ -122,7 +122,7 @@ class _ProductPageState extends State<ProductPage> {
 
   Widget PricesProduct(List<GroupPriceModel> prices) {
     return Padding(
-      padding: EdgeInsets.only(top: 16.0),
+      padding: EdgeInsets.only(top: 16.0, bottom: 16),
       child: GroupedListView<dynamic, String>(
         shrinkWrap: true,
         elements: prices,
@@ -153,14 +153,16 @@ class _ProductPageState extends State<ProductPage> {
             Text(
               "${infoProductPrice.store}",
               style: TextStyle(
+                fontSize: 18,
                 fontWeight: bestPrice ? FontWeight.bold : FontWeight.normal,
-                color: bestPrice ? Colors.blueAccent : Colors.black,
+                color: bestPrice ? ThemeColors.button_default : Colors.black,
               ),
             ),
             Text(
               "R\$ ${formatNumber.format(infoProductPrice.price)}",
               style: TextStyle(
-                color: bestPrice ? Colors.blueAccent : Colors.black,
+                fontSize: 18,
+                color: bestPrice ? ThemeColors.button_default : Colors.black,
                 fontWeight: bestPrice ? FontWeight.bold : FontWeight.normal,
               ),
             ),

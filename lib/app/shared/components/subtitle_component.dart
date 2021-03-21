@@ -15,8 +15,8 @@ class SubtitleComponent extends StatelessWidget {
         children: [
           Image.asset(
             image,
-            height: 20,
-            width: 20,
+            height: 18,
+            width: 18,
           ),
           Text(
             text,

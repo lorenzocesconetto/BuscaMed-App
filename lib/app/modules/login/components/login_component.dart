@@ -30,7 +30,7 @@ class _LoginComponentState extends State<LoginComponent> {
       await loginController.login(
           emailController.text, passwordController.text);
       if (loginController.auth_token) {
-        Modular.to.pushNamed("/home");
+        Modular.to.popAndPushNamed("/home");
       }
     }
   }

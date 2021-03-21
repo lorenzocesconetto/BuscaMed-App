@@ -1,4 +1,6 @@
+import 'package:buscamed/app/modules/login/controllers/auth_controller.dart';
 import 'package:buscamed/app/modules/user/controllers/user_controller.dart';
+import 'package:buscamed/app/shared/components/button_component.dart';
 import 'package:buscamed/app/shared/components/button_secundary_component.dart';
 import 'package:buscamed/app/shared/components/header_component.dart';
 import 'package:buscamed/app/shared/utils/colors.dart';
@@ -14,6 +16,7 @@ class UserInfoPage extends StatefulWidget {
 
 class _UserInfoPageState extends State<UserInfoPage> {
   final userController = Modular.get<UserController>();
+  final authController = Modular.get<AuthController>();
 
   @override
   void initState() {
@@ -32,6 +35,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               HeaderComponent(
+                option: Logout(),
                 action: () => Modular.to.pop(),
                 title: 'Perfil do Usuário',
               ),
@@ -77,14 +81,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                       text: 'Editar',
                                       onPressed: () =>
                                           Modular.to.pushNamed('/user-form'),
-                                    )
+                                    ),
                                   ],
                                 );
                               } else if (userController.loading) {
                                 return Center(
                                     child: CircularProgressIndicator());
                               } else {
-                                return Text(userController.errors);
+                                return Text(userController.errors.toString());
                               }
                             },
                           ),
@@ -97,6 +101,15 @@ class _UserInfoPageState extends State<UserInfoPage> {
         )));
   }
 
+  Widget Logout() => InkWell(
+        onTap: () async {
+          await authController.logout();
+          await userController.logout();
+          Modular.to.pushNamedAndRemoveUntil('login', ModalRoute.withName('/'));
+        },
+        child: Icon(Icons.logout),
+      );
+
   Widget dateUser(String title, String date) {
     return Padding(
       padding: EdgeInsets.only(top: 15),
@@ -107,7 +120,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
             title,
             style: TextStyle(color: Colors.green),
           ),
-          date != null ? Text(date): SizedBox()
+          date != null ? Text(date) : SizedBox()
         ],
       ),
     );

@@ -7,7 +7,7 @@ class ButtonComponent extends StatelessWidget {
   final bool loading;
   final Function onPressed;
 
-  ButtonComponent({@required this.text, this.onPressed, this.loading = false});
+  ButtonComponent({this.text, this.onPressed, this.loading = false});
 
   @override
   Widget build(BuildContext context) {

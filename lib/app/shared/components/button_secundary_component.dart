@@ -9,10 +9,7 @@ class ButtonSecundaryComponent extends StatelessWidget {
   final Function onPressed;
 
   ButtonSecundaryComponent(
-      {@required this.text,
-      this.onPressed,
-      this.loading = false,
-      this.big = true});
+      {this.text, this.onPressed, this.loading = false, this.big = true});
 
   @override
   Widget build(BuildContext context) {

@@ -57,8 +57,8 @@ class _HomePageState extends State<HomePage> {
     var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
-    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 1.8;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 1.9;
+    final double itemWidth = size.width / 1.7;
 
     return Scaffold(
       backgroundColor: ThemeColors.gray,
