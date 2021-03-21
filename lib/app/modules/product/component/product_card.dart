@@ -49,7 +49,7 @@ class _ProductCardComponentState extends State<ProductCardComponent> {
                   children: [
                     Text(widget.name,
                         maxLines: 2,
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: 16),
                         overflow: TextOverflow.ellipsis),
                     SizedBox(
                       height: 10,
@@ -62,7 +62,7 @@ class _ProductCardComponentState extends State<ProductCardComponent> {
                     Text(
                       "A partir de",
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 16,
                       ),
                     ),
                     PriceFormat(widget.best_price),
@@ -90,9 +90,10 @@ Row PriceFormat(double best_price) {
     children: [
       Text(
         "R\$ ${price[0]},",
-        style: TextStyle(fontSize: 20, color: ThemeColors.price_red),
+        style: TextStyle(fontSize: 24, color: ThemeColors.price_red),
       ),
-      Text("${price[1]}", style: TextStyle(fontSize: 14, color: Colors.black))
+      Text("${price[1]}",
+          style: TextStyle(fontSize: 16, color: ThemeColors.price_red))
     ],
   );
 }
@@ -104,7 +105,7 @@ Widget activePrinciple(String active_principle) {
           active_principle,
           subtitleStyle(),
         )
-      : SizedBox();
+      : SizedBox(height: 20);
 }
 
 Widget image(String urlImage) {
@@ -134,13 +135,15 @@ Widget producerPrinciple(String producer) {
           producer,
           subtitleStyle2(),
         )
-      : SizedBox();
+      : SizedBox(
+          height: 20,
+        );
 }
 
 TextStyle subtitleStyle() {
-  return TextStyle(fontSize: 12, color: ThemeColors.input_blue);
+  return TextStyle(fontSize: 14, color: ThemeColors.input_blue);
 }
 
 TextStyle subtitleStyle2() {
-  return TextStyle(fontSize: 12, color: ThemeColors.text_gray);
+  return TextStyle(fontSize: 14, color: ThemeColors.text_gray);
 }

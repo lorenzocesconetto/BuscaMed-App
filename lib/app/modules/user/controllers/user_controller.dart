@@ -90,6 +90,13 @@ abstract class _UserController with Store {
   }
 
   @action
+  logout() async {
+    await localStorage.delete("auth_token");
+    this._user = null;
+    _errors = null;
+  }
+
+  @action
   cleanErrors() async {
     _errors = null;
   }

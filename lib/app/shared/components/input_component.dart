@@ -21,7 +21,7 @@ class InputComponent extends StatelessWidget {
   ];
 
   InputComponent(
-      {@required this.label,
+      {this.label,
       this.obscureText = false,
       this.icon,
       this.checkEmpty = false,

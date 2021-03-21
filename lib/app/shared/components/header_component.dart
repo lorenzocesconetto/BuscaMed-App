@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class HeaderComponent extends StatelessWidget {
   final String title;
   final Function action;
+  final Widget option;
 
-  HeaderComponent({this.title, this.action});
+  HeaderComponent({this.title, this.action, this.option});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,8 @@ class HeaderComponent extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18),
-            ))
+            )),
+            option != null ? option : SizedBox()
           ],
         ),
       ),

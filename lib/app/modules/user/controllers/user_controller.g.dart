@@ -108,6 +108,13 @@ mixin _$UserController on _UserController, Store {
     return _$getInfoCepAsyncAction.run(() => super.getInfoCep(cep));
   }
 
+  final _$logoutAsyncAction = AsyncAction('_UserController.logout');
+
+  @override
+  Future logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   final _$cleanErrorsAsyncAction = AsyncAction('_UserController.cleanErrors');
 
   @override

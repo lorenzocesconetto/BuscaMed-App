@@ -73,10 +73,10 @@ class _HomePageState extends State<HomePage> {
           homeController.sugests == null
               ? SliverGrid(
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 350.0,
+                    maxCrossAxisExtent: 400.0,
                     mainAxisSpacing: 5.0,
-                    crossAxisSpacing: .0,
-                    childAspectRatio: 0.6,
+                    crossAxisSpacing: 1.0,
+                    childAspectRatio: 1.15,
                   ),
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {

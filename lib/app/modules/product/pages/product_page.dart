@@ -34,58 +34,68 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       backgroundColor: ThemeColors.background_product,
       body: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          HeaderComponent(
-            action: () => Modular.to.pop(),
-            title: 'Detalhes',
-          ),
-          Observer(builder: (_) {
-            if (productController.products == null ||
-                productController.loading) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ImageProduct(productController.products.img_small),
+          child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            HeaderComponent(
+              action: () => Modular.to.pop(),
+              title: 'Detalhes',
+            ),
+            Observer(builder: (_) {
+              if (productController.products == null ||
+                  productController.loading) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child:
+                            ImageProduct(productController.products.img_small),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          productController.products.name,
-                          style: TextStyle(fontSize: 18),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              productController.products.name,
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Divider(),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child:
+                                  Text("COMPARATIVO DE PREÇOS EM SUA REGIÃO"),
+                            ),
+                            PricesProduct(productController.products.prices),
+                            bulaContainer(),
+                            descriptionContainer(),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Divider(),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text("COMPARATIVO DE PREÇOS EM SUA REGIÃO"),
-                        ),
-                        PricesProduct(productController.products.prices)
-                      ],
-                    ),
-                  )
-                ],
-              );
-            }
-          }),
-        ],
+                      ),
+                    )
+                  ],
+                );
+              }
+            }),
+          ],
+        ),
       )),
     );
   }
@@ -109,9 +119,35 @@ class _ProductPageState extends State<ProductPage> {
           );
   }
 
+  Widget bulaContainer() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(children: [
+        Text(
+          'Bula',
+          style: TextStyle(fontSize: 18),
+        ),
+        Text('Text')
+      ]),
+    );
+  }
+
+  Widget descriptionContainer() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(children: [
+        Text(
+          'Descrição',
+          style: TextStyle(fontSize: 18),
+        ),
+        Text('Text')
+      ]),
+    );
+  }
+
   Widget PricesProduct(List<PriceModel> prices) {
     return Padding(
-      padding: EdgeInsets.only(top: 16.0),
+      padding: EdgeInsets.only(top: 16.0, bottom: 16),
       child: GroupedListView<dynamic, String>(
         shrinkWrap: true,
         elements: prices,
@@ -140,14 +176,16 @@ class _ProductPageState extends State<ProductPage> {
             Text(
               "${price.store}",
               style: TextStyle(
+                fontSize: 18,
                 fontWeight: bestPrice ? FontWeight.bold : FontWeight.normal,
-                color: bestPrice ? Colors.blueAccent : Colors.black,
+                color: bestPrice ? ThemeColors.button_default : Colors.black,
               ),
             ),
             Text(
               "R\$ ${formatNumber.format(price.price)}",
               style: TextStyle(
-                color: bestPrice ? Colors.blueAccent : Colors.black,
+                fontSize: 18,
+                color: bestPrice ? ThemeColors.button_default : Colors.black,
                 fontWeight: bestPrice ? FontWeight.bold : FontWeight.normal,
               ),
             ),
