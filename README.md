@@ -10,13 +10,6 @@
 ## Descrição do Projeto
 Aplicação Mobile do projeto BuscaMed desenvolvida em Flutter
 
-## Features
-
-- [ ] Cadastro de usuário
-- [ ] Login
-- [ ] SplashScreen
-- [ ] Home
-
 
 ## Autor
 
