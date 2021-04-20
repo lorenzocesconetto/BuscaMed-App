@@ -10,6 +10,15 @@
 ## Descrição do Projeto
 Aplicação Mobile do projeto BuscaMed desenvolvida em Flutter
 
+## Getting Started
+
+### Rodar e geraçao do controller (.g.dart)
+ + flutter pub run build_runner build --delete-conflicting-outputs
+### Gerar Icone
+ + flutter pub run flutter_launcher_icons:main
+### Gerar APK
+ + flutter build apk --split-per-abi
+
 
 ## Autor
 
